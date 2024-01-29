@@ -14,6 +14,7 @@ Création d'un Tchat
 
 
 Technos utilisés :
+
     - BDD : Notion
     - Back-End : Hono
     - Front-End : React Vite
