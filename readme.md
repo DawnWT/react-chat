@@ -18,3 +18,12 @@ Technos utilisés :
     - BDD : Notion
     - Back-End : Hono
     - Front-End : React Vite
+
+
+Installé les dépendnaces : 
+
+    - npm install
+
+Démarrer le projet : 
+
+    - npm run dev
