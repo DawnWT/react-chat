@@ -4,8 +4,9 @@ import MessageBubble from '../components/bulle-message.js';
 const App = () => {
   return (
     <div>
-      <MessageBubble sender="me" message="Salut, comment ça va ?" />
-      <MessageBubble sender="others" message="Ça va bien, merci !" />
+      <MessageBubble sender={true} message="Hello" />
+      <MessageBubble sender={false} message="Hi there" />
+      <MessageBubble sender={false} error ={true} message="Hi there" />
     </div>
   );
 };
