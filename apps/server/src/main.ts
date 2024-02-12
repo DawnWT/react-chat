@@ -5,7 +5,10 @@ import { Hono } from 'hono'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 
+import auth from './routes/auth.js'
+
 const app = new Hono()
+app.route('/auth', auth)
 
 const server = serve(
   {
