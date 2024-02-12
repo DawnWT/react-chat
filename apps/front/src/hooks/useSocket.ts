@@ -1,12 +1,16 @@
+import { ServerToClientEvents } from 'packages/socketEventTypes/index.js'
 import { useEffect } from 'react'
 
 import { socket } from '../socket.js'
 
-export interface SocketEvent {
-  name: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  handler: (...args: any[]) => void
-}
+export type SocketEvent = {
+  [K in keyof ServerToClientEvents]: {
+    name: K
+    handler: ServerToClientEvents[K]
+  }
+}[keyof ServerToClientEvents]
+
+// export type SocketEvent = BareSocketEvent<ServerToClientEvents>
 
 export const useSocket = function (eventList: SocketEvent[]) {
   useEffect(() => {
