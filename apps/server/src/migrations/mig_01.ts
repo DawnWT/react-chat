@@ -4,7 +4,7 @@ import { Kysely, sql } from 'kysely'
 export const up = async function (db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable('user')
-    .addColumn('id', 'serial', (col) => col.primaryKey())
+    .addColumn('id', 'serial', (col) => col.autoIncrement().primaryKey())
     .addColumn('name', 'text', (col) => col.notNull())
     .addColumn('unique_name', 'text', (col) => col.notNull().unique())
     .addColumn('password', 'text', (col) => col.notNull())
