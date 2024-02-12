@@ -12,7 +12,14 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.7.0",
+    "@hono/zod-validator": "^0.1.11",
     "hono": "^3.12.8",
-    "socket.io": "^4.7.4"
+    "kysely": "^0.27.2",
+    "pg": "^8.11.3",
+    "socket.io": "^4.7.4",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.11.0"
   }
 }
