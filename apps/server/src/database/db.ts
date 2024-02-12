@@ -1,12 +1,9 @@
 import { Kysely, PostgresDialect } from 'kysely'
-import { Pool } from 'pg'
+import pkg from 'pg'
 
 import { env } from '../helpers/env.js'
 import { UserTable } from './tables/user.js'
-
-interface Database {
-  users: UserTable
-}
+const { Pool } = pkg
 
 const dialect = new PostgresDialect({
   pool: new Pool({
@@ -18,5 +15,9 @@ const dialect = new PostgresDialect({
     max: 10,
   }),
 })
+
+export interface Database {
+  users: UserTable
+}
 
 export const db = new Kysely<Database>({ dialect })
