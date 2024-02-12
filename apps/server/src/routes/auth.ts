@@ -47,7 +47,7 @@ auth.post(
     const jwt = await sign(payload, env.JWT_SECRET)
     setCookie(ctx, 'jwt', jwt)
 
-    return ctx.json({ id: newUser.id })
+    return ctx.json(payload)
   }
 )
 
@@ -74,7 +74,7 @@ auth.post('/login', zValidator('json', z.object({ username: z.string(), password
   const jwt = await sign(payload, env.JWT_SECRET)
   setCookie(ctx, 'jwt', jwt)
 
-  return ctx.json({ id: user.id })
+  return ctx.json(payload)
 })
 
 auth.get(
