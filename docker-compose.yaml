@@ -4,6 +4,8 @@ services:
   database:
     image: postgres:16.1-alpine
     restart: always
+    ports:
+      - "5432:5432"
     environment:
       - POSTGRES_USER=kysely_usr
       - POSTGRES_PASSWORD=kysely_pwd
