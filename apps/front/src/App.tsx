@@ -1,11 +1,11 @@
 // MainComponent.js
 import React from 'react';
-import LoginForm from './components/LoginForm.js';
+import RegisterForm from '../src/components/RegisterForm.js';
 
 const App = () => {
   return (
     <div>
-      <LoginForm />
+      <RegisterForm />
     </div>
   );
 };
