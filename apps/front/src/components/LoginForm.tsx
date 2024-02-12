@@ -1,7 +1,7 @@
-// RegisterForm.js
+
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -19,12 +19,11 @@ const RegisterForm = () => {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Données soumises :', formData);
-    // Vous pouvez ajouter ici la logique pour envoyer les données au serveur
   };
 
   return (
-    <div className="register-form-container">
-      <h2>Formulaire d'inscription</h2>
+    <div className="login-form-container">
+      <h2>Formulaire de Connexion</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="username">Nom d'utilisateur :</label>
@@ -48,21 +47,10 @@ const RegisterForm = () => {
             required
           />
         </div>
-        <div className="form-group">
-          <label htmlFor="password">Confirm mot de passe :</label>
-          <input
-            type="password"
-            id="password_conf"
-            name="password_conf"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">S'inscrire</button>
+        <button type="submit">Se Connecter</button>
       </form>
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
