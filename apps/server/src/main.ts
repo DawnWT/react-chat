@@ -4,8 +4,10 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
+import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
 
 import auth from './routes/auth.js'
+import type { InterServerEvents, SocketData } from './types/socket.js'
 
 const app = new Hono()
 app.route('/auth', auth)
@@ -21,7 +23,7 @@ const server = serve(
   }
 )
 
-const io = new Server(server)
+const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server)
 
 io.on('connection', (socket) => {
   console.log('socket connected', socket.id)
