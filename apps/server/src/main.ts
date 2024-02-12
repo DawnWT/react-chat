@@ -8,6 +8,7 @@ import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
 
 import auth from './routes/auth.js'
 import { onConnection } from './routes/socket/connection.js'
+import { onMessageSend } from './routes/socket/message.js'
 import type { InterServerEvents, SocketData } from './types/socket.js'
 
 const app = new Hono()
@@ -36,6 +37,8 @@ io.on('connection', async (socket) => {
     return
   }
 
+  socket.on('message-send', async (roomId, message) => {
+    await onMessageSend(socket, message, roomId)
   })
 
   socket.on('disconnect', (reason) => {
