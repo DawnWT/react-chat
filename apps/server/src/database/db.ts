@@ -2,7 +2,7 @@ import { Kysely, PostgresDialect } from 'kysely'
 import { Pool } from 'pg'
 
 import { env } from '../helpers/env.js'
-import { UserTable } from './Tables/user.js'
+import { UserTable } from './tables/user.js'
 
 interface Database {
   users: UserTable
