@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { setCookie } from 'hono/cookie'
-import { sign } from 'hono/jwt'
+import { jwt, sign } from 'hono/jwt'
 import { z } from 'zod'
 
 import { db } from '../database/db.js'
@@ -76,5 +76,18 @@ auth.post('/login', zValidator('json', z.object({ username: z.string(), password
 
   return ctx.json({ id: user.id })
 })
+
+auth.get(
+  '/check',
+  jwt({
+    secret: env.JWT_SECRET,
+    cookie: 'jwt',
+  }),
+  (ctx) => {
+    const payload = ctx.get('jwtPayload') as Payload
+
+    return ctx.json(payload, 200)
+  }
+)
 
 export default auth
