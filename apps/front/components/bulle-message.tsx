@@ -6,12 +6,14 @@ interface MessageBubbleProps {
   error?: boolean;
 }
 
-const MessageBubble: React.FC<MessageBubbleProps> = ({ sender, message, error }) => {
-  const bubbleClassName = `message-bubble ${typeof sender === 'boolean' ? (sender ? 'true' : 'false') : ''} ${error ? 'error' : ''}`;
+const MessageBubble: React.FC<MessageBubbleProps> = ({ sender, message, error = false }) => {
+  const bubbleClassName = `message-bubble ${(sender ? 'true' : 'false')} ${error ? 'error' : ''}`;
 
   return (
-    <div className={bubbleClassName}>
-      <p>{message}</p>
+    <div className={`message ${sender ? 'sended-message' : 'received-message'}`}>
+      <div className={bubbleClassName}>
+        <p>{message}</p>
+      </div>
     </div>
   );
 };
