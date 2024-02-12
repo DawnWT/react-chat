@@ -1,8 +1,13 @@
-import { RouterProvider } from 'react-router-dom';
-import { router } from './config/router.js';
+// MainComponent.js
+import React from 'react';
+import RegisterForm from '../src/components/RegisterForm.js';
 
-export const App = function () {
+const App = () => {
   return (
-    <RouterProvider router={router} />
+    <div>
+      <RegisterForm />
+    </div>
   );
-}
+};
+
+export default App;
