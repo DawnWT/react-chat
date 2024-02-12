@@ -1,11 +1,12 @@
-// MainComponent.js
 import React from 'react';
 import RegisterForm from '../src/components/RegisterForm.js';
 
 const App = () => {
+  const handleRegister = (formData: any) => {};
+
   return (
     <div>
-      <RegisterForm />
+      <RegisterForm onSubmit={handleRegister} />
     </div>
   );
 };

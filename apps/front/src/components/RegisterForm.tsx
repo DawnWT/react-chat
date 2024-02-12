@@ -1,11 +1,22 @@
-// RegisterForm.js
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-const RegisterForm = () => {
-  const [formData, setFormData] = useState({
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+  password_conf: string;
+}
+
+interface RegisterFormProps {
+  onSubmit: (formData: FormData) => void;
+}
+
+const RegisterForm: React.FC<RegisterFormProps> = ({ onSubmit }) => {
+  const [formData, setFormData] = useState<FormData>({
     username: '',
     email: '',
     password: '',
+    password_conf: '',
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -18,8 +29,13 @@ const RegisterForm = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Données soumises :', formData);
-    // Vous pouvez ajouter ici la logique pour envoyer les données au serveur
+
+    if (formData.password !== formData.password_conf) {
+      console.log('Les mots de passe ne correspondent pas.');
+      return;
+    }
+
+    onSubmit(formData);
   };
 
   return (
@@ -49,12 +65,12 @@ const RegisterForm = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="password">Confirm mot de passe :</label>
+          <label htmlFor="password_conf">Confirm mot de passe :</label>
           <input
             type="password"
             id="password_conf"
             name="password_conf"
-            value={formData.password}
+            value={formData.password_conf}
             onChange={handleChange}
             required
           />
