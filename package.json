@@ -8,8 +8,7 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "apps/server",
-    "apps/front"
+    "apps/*"
   ],
   "dependencies": {
     "@types/node": "^20.11.10",
@@ -23,5 +22,8 @@
     "eslint-plugin-unused-imports": "^3.0.0",
     "prettier": "^3.2.4",
     "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "turbo": "^1.12.3"
   }
 }
