@@ -1,0 +1,7 @@
+{
+  "name": "@types/socket-events",
+  "main": "index.ts",
+  "types": "index.ts",
+  "private": true,
+  "type": "module"
+}
