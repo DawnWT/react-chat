@@ -1,8 +1,17 @@
-
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 
-const LoginForm = () => {
-  const [formData, setFormData] = useState({
+interface FormData {
+  username: string;
+  email: string;
+  password: string;
+}
+
+interface LoginFormProps {
+  onSubmit: (formData: FormData) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+  const [formData, setFormData] = useState<FormData>({
     username: '',
     email: '',
     password: '',
@@ -18,7 +27,7 @@ const LoginForm = () => {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Données soumises :', formData);
+    onSubmit(formData);
   };
 
   return (
