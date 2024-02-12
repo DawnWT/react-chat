@@ -9,6 +9,7 @@ import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
 import auth from './routes/auth.js'
 import { onConnection } from './routes/socket/connection.js'
 import { onMessageSend } from './routes/socket/message.js'
+import { onRoomAdded, onRoomCreate } from './routes/socket/room.js'
 import type { InterServerEvents, SocketData } from './types/socket.js'
 
 const app = new Hono()
@@ -39,6 +40,14 @@ io.on('connection', async (socket) => {
 
   socket.on('message-send', async (roomId, message) => {
     await onMessageSend(socket, message, roomId)
+  })
+
+  socket.on('room-create', async (otherUserId) => {
+    await onRoomCreate(io, socket, otherUserId)
+  })
+
+  io.on('room-added', (receiverId, roomId) => {
+    onRoomAdded(socket, receiverId, roomId)
   })
 
   socket.on('disconnect', (reason) => {
