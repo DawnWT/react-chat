@@ -3,13 +3,13 @@ import { z } from 'zod'
 
 import { env } from '../config/env.js'
 
-interface useAuthProps {
+interface useAuthApiProps {
   route: 'login' | 'register'
   username: string
   password: string
 }
 
-export const useAuth = function ({ route, username, password }: useAuthProps) {
+export const useAuthApi = function ({ route, username, password }: useAuthApiProps) {
   return useQuery({
     queryKey: ['useAuth'],
     queryFn: () =>
