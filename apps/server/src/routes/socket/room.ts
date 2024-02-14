@@ -44,3 +44,23 @@ export const onRoomAdded = function (socket: ChatSocket, receiverId: number, roo
 
   socket.emit('room-created', roomId)
 }
+
+export const onRoomDelete = async function (socket: ChatSocket, userId: unknown, roomId: unknown) {
+  if (typeof roomId !== 'number' || typeof userId !== 'number') {
+    socket.emit('room-error', "wrong data type for 'roomId' or 'userId'")
+    return
+  }
+
+  const room = await db
+    .deleteFrom('rooms')
+    .where('id', '=', roomId)
+    .where((eb) => eb('user1_id', '=', userId).or('user2_id', '=', userId))
+    .executeTakeFirst()
+
+  if (room.numDeletedRows === BigInt(0)) {
+    socket.emit('room-error', "room doesn't exist")
+    return
+  }
+
+  socket.emit('room-deleted', roomId)
+}
