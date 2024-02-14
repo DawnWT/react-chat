@@ -77,17 +77,4 @@ auth.post('/login', zValidator('json', z.object({ username: z.string(), password
   return ctx.json(payload)
 })
 
-auth.get(
-  '/check',
-  jwt({
-    secret: env.JWT_SECRET,
-    cookie: 'jwt',
-  }),
-  (ctx) => {
-    const payload = ctx.get('jwtPayload') as Payload
-
-    return ctx.json(payload, 200)
-  }
-)
-
 export default auth
