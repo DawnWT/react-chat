@@ -10,10 +10,12 @@ import auth from './routes/auth.js'
 import { onConnection } from './routes/socket/connection.js'
 import { onMessageSend } from './routes/socket/message.js'
 import { onRoomAdded, onRoomCreate } from './routes/socket/room.js'
+import users from './routes/user.js'
 import type { InterServerEvents, SocketData } from './types/socket.js'
 
 const app = new Hono()
 app.route('/auth', auth)
+app.route('/users', users)
 
 const server = serve(
   {
