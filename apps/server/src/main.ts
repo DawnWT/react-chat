@@ -10,7 +10,7 @@ import auth from './routes/auth.js'
 import messages from './routes/messages.js'
 import { onConnection } from './routes/socket/connection.js'
 import { onMessageSend } from './routes/socket/message.js'
-import { onRoomAdded, onRoomCreate } from './routes/socket/room.js'
+import { onRoomAdded, onRoomCreate, onRoomDelete } from './routes/socket/room.js'
 import users from './routes/user.js'
 import type { InterServerEvents, SocketData } from './types/socket.js'
 
@@ -48,6 +48,10 @@ io.on('connection', async (socket) => {
 
   socket.on('room-create', async (otherUserId) => {
     await onRoomCreate(io, socket, otherUserId)
+  })
+
+  socket.on('room-delete', async (userId, roomId) => {
+    await onRoomDelete(socket, userId, roomId)
   })
 
   io.on('room-added', (receiverId, roomId) => {
