@@ -12,7 +12,7 @@ export const useEditUser = function ({ id, username, password }: useEditUserProp
   return useQuery<{ password: string; id: number; name: string; uniqueName: string; created_at: Date }>({
     queryKey: ['useEditUser'],
     queryFn: () =>
-      fetch(`${env.BACKEND_URL}/users/${id}`, {
+      fetch(`${env.VITE_BACKEND_URL}/users/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ username, password }),
       }).then((res) => res.json()),

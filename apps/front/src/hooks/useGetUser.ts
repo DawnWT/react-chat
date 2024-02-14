@@ -9,6 +9,6 @@ interface useGetUserProps {
 export const useGetUser = function ({ id }: useGetUserProps) {
   return useQuery<{ id: number; name: string; created_at: Date }>({
     queryKey: ['useGetUser'],
-    queryFn: () => fetch(`${env.BACKEND_URL}/users/${id}`).then((res) => res.json()),
+    queryFn: () => fetch(`${env.VITE_BACKEND_URL}/users/${id}`).then((res) => res.json()),
   })
 }

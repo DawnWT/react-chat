@@ -5,6 +5,6 @@ import { env } from '../config/env.js'
 export const useGetRoomList = function () {
   return useQuery<Array<{ id: number; created_at: Date }>>({
     queryKey: ['useGetRoomList'],
-    queryFn: async () => fetch(`${env.BACKEND_URL}/rooms`).then((res) => res.json()),
+    queryFn: async () => fetch(`${env.VITE_BACKEND_URL}/rooms`).then((res) => res.json()),
   })
 }

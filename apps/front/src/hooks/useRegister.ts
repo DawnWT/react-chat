@@ -11,8 +11,9 @@ export const useAuthApi = function ({ username, password }: useRegisterProps) {
   return useQuery({
     queryKey: ['useAuth'],
     queryFn: () =>
-      fetch(`${env.BACKEND_URL}/auth/register`, { method: 'POST', body: JSON.stringify({ username, password }) }).then(
-        (res) => res.json()
-      ),
+      fetch(`${env.VITE_BACKEND_URL}/auth/register`, {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+      }).then((res) => res.json()),
   })
 }

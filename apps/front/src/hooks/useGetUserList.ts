@@ -11,7 +11,7 @@ export const useGetUserList = function ({ nameLike }: useGetUserListProps) {
     queryKey: ['useGetUserList'],
     queryFn: async () => {
       const queryParam = nameLike ? `?name=${nameLike}` : ''
-      return fetch(`${env.BACKEND_URL}/users${queryParam}`).then((res) => res.json())
+      return fetch(`${env.VITE_BACKEND_URL}/users${queryParam}`).then((res) => res.json())
     },
   })
 }
