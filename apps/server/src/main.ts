@@ -7,6 +7,7 @@ import { Server } from 'socket.io'
 import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
 
 import auth from './routes/auth.js'
+import messages from './routes/messages.js'
 import { onConnection } from './routes/socket/connection.js'
 import { onMessageSend } from './routes/socket/message.js'
 import { onRoomAdded, onRoomCreate } from './routes/socket/room.js'
@@ -16,6 +17,7 @@ import type { InterServerEvents, SocketData } from './types/socket.js'
 const app = new Hono()
 app.route('/auth', auth)
 app.route('/users', users)
+app.route('/messages', messages)
 
 const server = serve(
   {
