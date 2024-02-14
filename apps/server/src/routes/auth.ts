@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
-import { setCookie } from 'hono/cookie'
-import { jwt, sign } from 'hono/jwt'
+import { getCookie, setCookie } from 'hono/cookie'
+import { sign, verify } from 'hono/jwt'
 import { z } from 'zod'
 
 import { db } from '../database/db.js'
@@ -51,30 +51,50 @@ auth.post(
   }
 )
 
-auth.post('/login', zValidator('json', z.object({ username: z.string(), password: z.string() })), async (ctx) => {
-  const { username, password } = ctx.req.valid('json')
+auth.post(
+  '/login',
+  zValidator('json', z.object({ username: z.string().optional(), password: z.string().optional() })),
+  async (ctx) => {
+    const { username, password } = ctx.req.valid('json')
 
-  const user = await db
-    .selectFrom('users')
-    .where('name', '=', username)
-    .where('password', '=', password)
-    .select('id')
-    .select('name')
-    .executeTakeFirst()
+    if (username === undefined || password === undefined) {
+      const token = getCookie(ctx, 'jwt')
 
-  if (user === undefined) {
-    return ctx.json({ error: 'Invalid username or password' }, 400)
+      if (token === undefined) {
+        return ctx.json({ error: 'Invalid username or password' }, 400)
+      }
+
+      const payload = await (verify(token, env.JWT_SECRET) as Promise<Payload>).catch(() => null)
+
+      if (payload === null) {
+        return ctx.json({ error: 'Invalid token' }, 400)
+      }
+
+      return ctx.json(payload)
+    }
+
+    const user = await db
+      .selectFrom('users')
+      .where('name', '=', username)
+      .where('password', '=', password)
+      .select('id')
+      .select('name')
+      .executeTakeFirst()
+
+    if (user === undefined) {
+      return ctx.json({ error: 'Invalid username or password' }, 400)
+    }
+
+    const payload: Payload = {
+      id: user.id,
+      username: user.name,
+    }
+
+    const jwt = await sign(payload, env.JWT_SECRET)
+    setCookie(ctx, 'jwt', jwt)
+
+    return ctx.json(payload)
   }
-
-  const payload: Payload = {
-    id: user.id,
-    username: user.name,
-  }
-
-  const jwt = await sign(payload, env.JWT_SECRET)
-  setCookie(ctx, 'jwt', jwt)
-
-  return ctx.json(payload)
-})
+)
 
 export default auth
