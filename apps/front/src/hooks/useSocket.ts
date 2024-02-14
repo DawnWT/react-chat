@@ -10,8 +10,6 @@ export type SocketEvent = {
   }
 }[keyof ServerToClientEvents]
 
-// export type SocketEvent = BareSocketEvent<ServerToClientEvents>
-
 export const useSocket = function (eventList: SocketEvent[]) {
   useEffect(() => {
     for (const event of eventList) {
