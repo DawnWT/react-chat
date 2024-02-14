@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "prepare": "panda codegen",
     "start": "vite",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -15,13 +16,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@emotion/react": "^11.11.3",
-    "@emotion/styled": "^11.11.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-regular-svg-icons": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
-    "@mui/material": "^5.15.7",
     "@tanstack/react-query": "^5.20.1",
     "@vitejs/plugin-react": "^4.2.1",
     "react": "^18.2.0",
@@ -29,9 +27,11 @@
     "react-router-dom": "^6.22.0",
     "socket.io-client": "^4.7.4",
     "vite": "^5.0.12",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@pandacss/dev": "^0.31.0",
     "@types/react": "^18.2.53",
     "@types/react-dom": "^18.2.18",
     "@types/socket-events": "*"

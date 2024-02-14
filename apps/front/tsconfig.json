@@ -2,8 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
   },
-  "include": ["./src", "vite.config.ts"],
+  "include": ["./src", "./styled-system", "vite.config.ts", "panda.config.ts"],
   "exclude": ["./node_modules", "./dist"]
 }
