@@ -2,117 +2,69 @@ import '../styles/SearchBar.css'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useCallback } from 'react'
+import React from 'react'
 
-import { css } from '../../styled-system/css'
+import { Box, styled } from '../../styled-system/jsx'
+import { TextInput } from './TextInput'
 
 type dataListValueType = number | string
 
 interface SearchBarProps<T extends dataListValueType> {
-  onConfirm: (value: T | null) => void
   dataList: Array<{ label: string; value: T }>
   input: string
-  setInput: (value: string) => void
-  error: string
+  error: boolean
+  onChange: (ev: React.ChangeEvent<HTMLInputElement>) => void
+  onKeyDown: (ev: React.KeyboardEvent<HTMLInputElement>) => void
+  onClickSuggestion: (ev: React.MouseEvent<HTMLElement>) => void
 }
 
-const searchWidth = '100%'
-const containerPadding = 10
-
-export const SearchBar = <T extends dataListValueType>({
-  onConfirm,
+export const SearchBar = function <T extends dataListValueType>({
   dataList,
   input,
-  setInput,
   error,
-}: SearchBarProps<T>) => {
-  const handleChange = useCallback((ev: React.ChangeEvent<HTMLInputElement>) => {
-    setInput(ev.target.value)
-  }, [])
-
-  const handleEnterKey = useCallback((ev: React.KeyboardEvent<HTMLInputElement>) => {
-    if (ev.key === 'Enter') {
-      onConfirm(dataList.find((v) => v.label === ev.currentTarget.value)?.value ?? null)
-      setInput('')
-    }
-  }, [])
-
-  const handleClickOnResult = useCallback((id: T) => {
-    onConfirm(id)
-    setInput('')
-  }, [])
-
+  onChange,
+  onKeyDown,
+  onClickSuggestion,
+}: SearchBarProps<T>) {
   return (
-    <div
-      className={css({
-        display: 'flex',
-        alignItems: 'center',
-        gap: '10px',
-        width: '100%',
-        margin: `${containerPadding}px`,
-        paddingX: '10px',
-        height: '50px',
-        border: '1px solid #ccc',
-        borderRadius: '4px',
-        borderColor: error ? 'red' : '#ccc',
-      })}
-    >
-      <FontAwesomeIcon icon={faSearch} />
-      <input
-        className={css({
-          flexGrow: 1,
-          height: '100%',
-          _focus: {
-            outline: 'none',
-          },
-        })}
-        type="text"
-        placeholder="Recherchez ..."
-        onChange={handleChange}
-        onKeyDown={handleEnterKey}
-      />
+    <Box position="relative" width="100%">
+      <TextInput icon={<FontAwesomeIcon icon={faSearch} />} onChange={onChange} onKeyDown={onKeyDown} error={error} />
 
       {dataList.length > 0 && input.length > 0 && (
-        <ul
-          className={css({
-            position: 'absolute',
-            width: `calc(${searchWidth} - ${containerPadding * 2}px)`,
-            padding: 0,
-            margin: 0,
-            left: `${containerPadding}px`,
-            top: '60px',
-            backgroundColor: 'white',
-            border: '1px solid #ccc',
-            borderTop: 'none',
-            borderRadius: '0 0 4px 4px',
-            boxSizing: 'border-box',
-            zIndex: 1,
-            listStyle: 'none',
-          })}
+        <styled.ul
+          position="absolute"
+          width="100%"
+          borderWidth="1px"
+          borderStyle="solid"
+          borderRadius="4px"
+          borderTopRadius="0"
+          borderTopWidth="initial"
+          borderTopColor="transparent"
+          zIndex={1}
+          listStyle="none"
         >
           {dataList.map((result, index) => (
-            <li
-              className={css({
-                padding: '8px 16px',
-                cursor: 'pointer',
-                _hover: {
-                  backgroundColor: '#f3f3f3',
-                },
-                _focus: {
-                  backgroundColor: '#f3f3f3',
-                },
-              })}
+            <styled.li
+              paddingX="16px"
+              paddingY="8px"
+              _last={{
+                borderBottomRadius: '4px',
+              }}
+              _hover={{
+                backgroundColor: '#f3f3f3',
+              }}
+              _focus={{
+                backgroundColor: '#f3f3f3',
+              }}
               tabIndex={0}
               key={index}
-              onClick={() => {
-                handleClickOnResult(result.value)
-              }}
+              onClick={onClickSuggestion}
             >
               {result.label}
-            </li>
+            </styled.li>
           ))}
-        </ul>
+        </styled.ul>
       )}
-    </div>
+    </Box>
   )
 }
