@@ -15,6 +15,16 @@ import users from './routes/user.js'
 import type { InterServerEvents, SocketData } from './types/socket.js'
 
 const app = new Hono()
+
+app.use(
+  '*',
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  })
+)
+
+app.get('/', (ctx) => ctx.text('Hello World'))
 app.route('/auth', auth)
 app.route('/users', users)
 app.route('/messages', messages)
