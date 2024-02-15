@@ -2,27 +2,45 @@ import '../styles/SearchBar.css'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useRef } from 'react'
+import React, { useCallback } from 'react'
 
 import { css } from '../../styled-system/css'
-import { useAutoComplete } from '../hooks/useAutoComplete'
-import { useGetUserList } from '../hooks/useGetUserList'
 
-interface SearchBarProps {
-  onConfirm: (value: string) => void
+type dataListValueType = number | string
+
+interface SearchBarProps<T extends dataListValueType> {
+  onConfirm: (value: T | null) => void
+  dataList: Array<{ label: string; value: T }>
+  input: string
+  setInput: (value: string) => void
+  error: string
 }
 
 const searchWidth = '100%'
 const containerPadding = 10
 
-export const SearchBar: React.FC<SearchBarProps> = ({ onConfirm }) => {
-  const { data } = useGetUserList({ nameLike: '' })
-  const inputRef = useRef<HTMLInputElement | null>(null)
-  const { filteredResults, handleClickOnResult, handleEnterPress, handleSearch, searchTerm } = useAutoComplete(
-    inputRef,
-    data?.map((user) => user.name) ?? [],
-    onConfirm
-  )
+export const SearchBar = <T extends dataListValueType>({
+  onConfirm,
+  dataList,
+  input,
+  setInput,
+  error,
+}: SearchBarProps<T>) => {
+  const handleChange = useCallback((ev: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(ev.target.value)
+  }, [])
+
+  const handleEnterKey = useCallback((ev: React.KeyboardEvent<HTMLInputElement>) => {
+    if (ev.key === 'Enter') {
+      onConfirm(dataList.find((v) => v.label === ev.currentTarget.value)?.value ?? null)
+      setInput('')
+    }
+  }, [])
+
+  const handleClickOnResult = useCallback((id: T) => {
+    onConfirm(id)
+    setInput('')
+  }, [])
 
   return (
     <div
@@ -30,11 +48,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onConfirm }) => {
         display: 'flex',
         alignItems: 'center',
         gap: '10px',
+        width: '100%',
         margin: `${containerPadding}px`,
         paddingX: '10px',
         height: '50px',
         border: '1px solid #ccc',
         borderRadius: '4px',
+        borderColor: error ? 'red' : '#ccc',
       })}
     >
       <FontAwesomeIcon icon={faSearch} />
@@ -48,19 +68,19 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onConfirm }) => {
         })}
         type="text"
         placeholder="Recherchez ..."
-        value={searchTerm}
-        onChange={handleSearch}
-        onKeyDown={handleEnterPress}
-        ref={inputRef}
+        onChange={handleChange}
+        onKeyDown={handleEnterKey}
       />
 
-      {filteredResults.length > 0 && (
+      {dataList.length > 0 && input.length > 0 && (
         <ul
           className={css({
             position: 'absolute',
             width: `calc(${searchWidth} - ${containerPadding * 2}px)`,
             padding: 0,
             margin: 0,
+            left: `${containerPadding}px`,
+            top: '60px',
             backgroundColor: 'white',
             border: '1px solid #ccc',
             borderTop: 'none',
@@ -70,7 +90,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onConfirm }) => {
             listStyle: 'none',
           })}
         >
-          {filteredResults.map((result, index) => (
+          {dataList.map((result, index) => (
             <li
               className={css({
                 padding: '8px 16px',
@@ -84,9 +104,11 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onConfirm }) => {
               })}
               tabIndex={0}
               key={index}
-              onClick={handleClickOnResult}
+              onClick={() => {
+                handleClickOnResult(result.value)
+              }}
             >
-              {result}
+              {result.label}
             </li>
           ))}
         </ul>
