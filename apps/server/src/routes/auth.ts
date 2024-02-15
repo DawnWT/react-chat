@@ -40,6 +40,8 @@ auth.post(
     const payload: Payload = {
       id: newUser.id,
       username: newUser.id_name,
+      displayName: newUser.display_name,
+      password: newUser.password,
     }
 
     const jwt = await sign(payload, env.JWT_SECRET)
@@ -77,6 +79,8 @@ auth.post(
       .where('password', '=', password)
       .select('id')
       .select('id_name')
+      .select('display_name')
+      .select('password')
       .executeTakeFirst()
 
     if (user === undefined) {
@@ -86,6 +90,8 @@ auth.post(
     const payload: Payload = {
       id: user.id,
       username: user.id_name,
+      displayName: user.display_name,
+      password: user.password,
     }
 
     const jwt = await sign(payload, env.JWT_SECRET)
