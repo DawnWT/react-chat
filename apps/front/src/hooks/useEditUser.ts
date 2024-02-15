@@ -9,7 +9,7 @@ interface useEditUserProps {
 }
 
 export const useEditUser = function ({ id, username, password }: useEditUserProps) {
-  return useQuery<{ password: string; id: number; name: string; uniqueName: string; created_at: Date }>({
+  return useQuery<{ password: string; id: number; id_name: string; display_name: string; created_at: Date }>({
     queryKey: ['useEditUser'],
     queryFn: () =>
       fetch(`${env.VITE_BACKEND_URL}/users/${id}`, {
