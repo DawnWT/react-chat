@@ -16,32 +16,30 @@ auth.post(
     'json',
     z.object({
       username: z.string(),
+      displayName: z.string().optional(),
       password: z.string(),
     })
   ),
   async (ctx) => {
-    const { username, password } = ctx.req.valid('json')
-
-    const userExist = await db.selectFrom('users').where('name', '=', username).select('id').executeTakeFirst()
-
-    if (userExist !== undefined) {
-      return ctx.json({ error: 'Username already exists' }, 400)
-    }
+    const { username, password, displayName } = ctx.req.valid('json')
 
     const newUser = await db
       .insertInto('users')
-      .values({ name: username, password, uniqueName: username })
+      // eslint-disable-next-line camelcase
+      .values({ id_name: username, password, display_name: displayName ?? username })
       .returning('id')
-      .returning('name')
+      .returning('id_name')
+      .returning('display_name')
+      .returning('password')
       .executeTakeFirst()
 
     if (newUser === undefined) {
-      return ctx.json({ error: 'Failed to register user' }, 500)
+      return ctx.json({ error: 'This username is already taken' }, 400)
     }
 
     const payload: Payload = {
       id: newUser.id,
-      username: newUser.name,
+      username: newUser.id_name,
     }
 
     const jwt = await sign(payload, env.JWT_SECRET)
@@ -75,10 +73,10 @@ auth.post(
 
     const user = await db
       .selectFrom('users')
-      .where('name', '=', username)
+      .where('id_name', '=', username)
       .where('password', '=', password)
       .select('id')
-      .select('name')
+      .select('id_name')
       .executeTakeFirst()
 
     if (user === undefined) {
@@ -87,7 +85,7 @@ auth.post(
 
     const payload: Payload = {
       id: user.id,
-      username: user.name,
+      username: user.id_name,
     }
 
     const jwt = await sign(payload, env.JWT_SECRET)

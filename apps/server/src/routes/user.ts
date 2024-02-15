@@ -15,10 +15,10 @@ users.get('/', jwt({ secret: env.JWT_SECRET, cookie: 'jwt' }), async (ctx) => {
   let query = db.selectFrom('users')
 
   if (queryName !== undefined) {
-    query = query.where('name', 'like', `%${queryName}%`)
+    query = query.where('id_name', 'like', `%${queryName}%`)
   }
 
-  const users = await query.select('id').select('name').execute()
+  const users = await query.select('id').select('id_name').execute()
 
   return ctx.json(users)
 })
@@ -42,7 +42,8 @@ users.get(
       .selectFrom('users')
       .where('id', '=', parsedId)
       .select('id')
-      .select('name')
+      .select('id_name')
+      .select('display_name')
       .select('created_at')
       .executeTakeFirst()
 
@@ -57,10 +58,13 @@ users.get(
 users.put(
   '/:id',
   jwt({ secret: env.JWT_SECRET, cookie: 'jwt' }),
-  zValidator('json', z.object({ username: z.string().optional(), password: z.string().optional() })),
+  zValidator(
+    'json',
+    z.object({ username: z.string().optional(), displayName: z.string().optional(), password: z.string().optional() })
+  ),
   async (ctx) => {
     const queryId = ctx.req.query('id')
-    const { username, password } = ctx.req.valid('json')
+    const { username, password, displayName } = ctx.req.valid('json')
     const payload = ctx.get('jwtPayload') as Payload
 
     if (queryId === undefined) {
@@ -80,7 +84,11 @@ users.put(
     let query = db.updateTable('users').where('id', '=', parsedId)
 
     if (username !== undefined) {
-      query = query.set('name', username)
+      query = query.set('id_name', username)
+    }
+
+    if (displayName !== undefined) {
+      query = query.set('display_name', displayName)
     }
 
     if (password !== undefined) {

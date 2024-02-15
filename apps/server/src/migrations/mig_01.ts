@@ -5,8 +5,8 @@ export const up = async function (db: Kysely<any>): Promise<void> {
   await db.schema
     .createTable('users')
     .addColumn('id', 'serial', (col) => col.primaryKey())
-    .addColumn('name', 'text', (col) => col.notNull())
-    .addColumn('unique_name', 'text', (col) => col.notNull().unique())
+    .addColumn('id_name', 'text', (col) => col.notNull().unique())
+    .addColumn('display_name', 'text', (col) => col.notNull())
     .addColumn('password', 'text', (col) => col.notNull())
     .addColumn('created_at', 'timestamptz', (col) => col.notNull().defaultTo(sql`now()`))
     .execute()
