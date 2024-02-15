@@ -2,6 +2,7 @@ import './helpers/env.js'
 
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
+import { cors } from 'hono/cors'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
