@@ -15,6 +15,7 @@ export const useEditUser = function ({ id, username, password }: useEditUserProp
       fetch(`${env.VITE_BACKEND_URL}/users/${id}`, {
         method: 'PUT',
         body: JSON.stringify({ username, password }),
+        credentials: 'include',
       }).then((res) => res.json()),
   })
 }

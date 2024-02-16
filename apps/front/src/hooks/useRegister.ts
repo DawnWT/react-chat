@@ -14,6 +14,7 @@ export const useAuthApi = function ({ username, password }: useRegisterProps) {
       fetch(`${env.VITE_BACKEND_URL}/auth/register`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
+        credentials: 'include',
       }).then((res) => res.json()),
   })
 }

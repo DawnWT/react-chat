@@ -14,6 +14,7 @@ export const useAuthApi = function ({ username, password }: useLoginProps = {}) 
       fetch(`${env.VITE_BACKEND_URL}/auth/login`, {
         method: 'POST',
         body: JSON.stringify({ username, password }),
+        credentials: 'include',
       }).then((res) => res.json()),
   })
 }
