@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
-import { getCookie, setCookie } from 'hono/cookie'
-import { sign, verify } from 'hono/jwt'
+import { deleteCookie, setCookie } from 'hono/cookie'
+import { jwt, sign } from 'hono/jwt'
 import { z } from 'zod'
 
 import { db } from '../database/db.js'
@@ -51,52 +51,34 @@ auth.post(
   }
 )
 
-auth.post(
-  '/login',
-  zValidator('json', z.object({ username: z.string().optional(), password: z.string().optional() })),
-  async (ctx) => {
-    const { username, password } = ctx.req.valid('json')
+auth.post('/login', zValidator('json', z.object({ username: z.string(), password: z.string() })), async (ctx) => {
+  const { username, password } = ctx.req.valid('json')
 
-    if (username === undefined || password === undefined) {
-      const token = getCookie(ctx, 'jwt')
+  const user = await db
+    .selectFrom('users')
+    .where('id_name', '=', username)
+    .where('password', '=', password)
+    .select('id')
+    .select('id_name')
+    .select('display_name')
+    .select('password')
+    .executeTakeFirst()
 
-      if (token === undefined) {
-        return ctx.json({ error: 'Invalid username or password' }, 400)
-      }
+  if (user === undefined) {
+    return ctx.json({ error: 'Invalid username or password' }, 400)
+  }
 
-      const payload = await (verify(token, env.JWT_SECRET) as Promise<Payload>).catch(() => null)
+  const payload: Payload = {
+    id: user.id,
+    username: user.id_name,
+    displayName: user.display_name,
+    password: user.password,
+  }
 
-      if (payload === null) {
-        return ctx.json({ error: 'Invalid token' }, 400)
-      }
+  const jwt = await sign(payload, env.JWT_SECRET)
+  setCookie(ctx, 'jwt', jwt)
 
-      return ctx.json(payload)
-    }
-
-    const user = await db
-      .selectFrom('users')
-      .where('id_name', '=', username)
-      .where('password', '=', password)
-      .select('id')
-      .select('id_name')
-      .select('display_name')
-      .select('password')
-      .executeTakeFirst()
-
-    if (user === undefined) {
-      return ctx.json({ error: 'Invalid username or password' }, 400)
-    }
-
-    const payload: Payload = {
-      id: user.id,
-      username: user.id_name,
-      displayName: user.display_name,
-      password: user.password,
-    }
-
-    const jwt = await sign(payload, env.JWT_SECRET)
-    setCookie(ctx, 'jwt', jwt)
-
+  return ctx.json(payload)
 })
 
 auth.get('/jwt', jwt({ secret: env.JWT_SECRET, cookie: 'jwt' }), (ctx) => {
