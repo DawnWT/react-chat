@@ -2,6 +2,7 @@ import './helpers/env.js'
 
 import { serve } from '@hono/node-server'
 import { createAdapter } from '@socket.io/postgres-adapter'
+import EventEmitter from 'events'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { createServer } from 'http'
@@ -48,6 +49,8 @@ const server = serve(
 const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server)
 
 io.adapter(createAdapter(pool))
+
+const roomEventEmitter = new EventEmitter()
 
 io.on('connection', async (socket) => {
   console.log('socket connected', socket.id)
