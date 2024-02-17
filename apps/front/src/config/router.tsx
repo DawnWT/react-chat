@@ -1,11 +1,10 @@
+import { AuthLayout } from '@src/pages/AuthLayout.js'
+import { Home } from '@src/pages/Home.js'
+import { LoginPage } from '@src/pages/Login.js'
+import { ProtectedLayout } from '@src/pages/ProtectedLayout.js'
+import { RegisterPage } from '@src/pages/Register.js'
+import { SetUserLayout } from '@src/pages/SetUserLayout.js'
 import { createBrowserRouter } from 'react-router-dom'
-
-import { AuthLayout } from '../pages/AuthLayout.js'
-import { Home } from '../pages/Home.js'
-import { LoginPage } from '../pages/Login.js'
-import { ProtectedLayout } from '../pages/ProtectedLayout.js'
-import { RegisterPage } from '../pages/Register.js'
-import { SetUserLayout } from '../pages/SetUserLayout.js'
 
 export const router = createBrowserRouter([
   {

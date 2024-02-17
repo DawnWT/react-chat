@@ -1,5 +1,5 @@
-import { css } from '../../styled-system/css'
-import { RoomSideBar } from '../components/RoomSideBar'
+import { css } from '@panda/css'
+import { RoomSideBar } from '@src/components/RoomSideBar'
 
 export const Home = () => {
   return (

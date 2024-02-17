@@ -1,4 +1,4 @@
-import { styled, VStack } from '../../styled-system/jsx'
+import { styled, VStack } from '@panda/jsx'
 
 export const Card = styled(VStack, {
   base: {

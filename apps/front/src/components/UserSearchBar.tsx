@@ -1,7 +1,7 @@
+import { useDebounce } from '@src/hooks/useDebounce'
+import { useGetUserList } from '@src/hooks/useGetUserList'
 import React, { useCallback, useMemo, useState } from 'react'
 
-import { useDebounce } from '../hooks/useDebounce'
-import { useGetUserList } from '../hooks/useGetUserList'
 import { SearchBar } from './SearchBar'
 
 interface UserSearchBarProps {

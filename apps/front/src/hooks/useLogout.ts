@@ -1,8 +1,7 @@
+import { env } from '@src/config/env'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useMutation } from '@tanstack/react-query'
 import { useEffect } from 'react'
-
-import { env } from '../config/env'
-import { useCurrentUserStore } from '../store/currentUserStore'
 
 export const useLogout = function () {
   const mutation = useMutation({

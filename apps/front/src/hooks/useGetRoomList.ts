@@ -1,6 +1,5 @@
+import { env } from '@src/config/env.js'
 import { useQuery } from '@tanstack/react-query'
-
-import { env } from '../config/env.js'
 
 export const useGetRoomList = function () {
   return useQuery<Array<{ id: number; created_at: Date }>>({

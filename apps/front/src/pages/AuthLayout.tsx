@@ -1,6 +1,5 @@
+import { Container } from '@panda/jsx'
 import { Outlet } from 'react-router-dom'
-
-import { Container } from '../../styled-system/jsx'
 
 export const AuthLayout = function () {
   return (

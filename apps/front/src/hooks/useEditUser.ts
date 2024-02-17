@@ -1,6 +1,5 @@
+import { env } from '@src/config/env.js'
 import { useQuery } from '@tanstack/react-query'
-
-import { env } from '../config/env.js'
 
 interface useEditUserProps {
   id: number

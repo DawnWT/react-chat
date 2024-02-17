@@ -1,10 +1,10 @@
+import { Box } from '@panda/jsx'
+import { useGetUserRoomList } from '@src/hooks/useGetUserRoomList'
+import { SocketEvent, useSocket } from '@src/hooks/useSocket'
+import { socket } from '@src/socket'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useCallback } from 'react'
 
-import { Box } from '../../styled-system/jsx'
-import { useGetUserRoomList } from '../hooks/useGetUserRoomList'
-import { SocketEvent, useSocket } from '../hooks/useSocket'
-import { socket } from '../socket'
-import { useCurrentUserStore } from '../store/currentUserStore'
 import { UserSearchBar } from './UserSearchBar'
 
 export const RoomSideBar = function () {

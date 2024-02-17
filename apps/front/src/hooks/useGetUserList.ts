@@ -1,6 +1,5 @@
+import { env } from '@src/config/env.js'
 import { useQuery } from '@tanstack/react-query'
-
-import { env } from '../config/env.js'
 
 export const useGetUserList = function (nameLike: string) {
   return useQuery<Array<{ id: number; id_name: string }>>({

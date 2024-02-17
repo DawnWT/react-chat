@@ -1,6 +1,5 @@
+import { HStack, styled, VStack } from '@panda/jsx'
 import React, { useRef } from 'react'
-
-import { HStack, styled, VStack } from '../../styled-system/jsx'
 
 interface TextInputProps
   extends Pick<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onKeyDown' | 'placeholder' | 'value' | 'id'> {

@@ -1,6 +1,5 @@
+import { env } from '@src/config/env.js'
 import { useQuery } from '@tanstack/react-query'
-
-import { env } from '../config/env.js'
 
 export const useGetUser = function (id: number) {
   return useQuery<{ id: number; id_name: string; display_name: string; created_at: Date }>({

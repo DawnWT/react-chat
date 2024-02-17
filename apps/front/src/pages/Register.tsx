@@ -1,13 +1,12 @@
+import { ALink } from '@src/components/ALink'
+import { Button } from '@src/components/Button'
+import { Card } from '@src/components/Card'
+import { Heading } from '@src/components/Heading'
+import { TextInput } from '@src/components/TextInput'
+import { useRegister } from '@src/hooks/useRegister'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { FormEvent, useCallback, useState } from 'react'
 import { Navigate, useNavigate } from 'react-router-dom'
-
-import { ALink } from '../components/ALink'
-import { Button } from '../components/Button'
-import { Card } from '../components/Card'
-import { Heading } from '../components/Heading'
-import { TextInput } from '../components/TextInput'
-import { useRegister } from '../hooks/useRegister'
-import { useCurrentUserStore } from '../store/currentUserStore'
 
 export const RegisterPage = function () {
   const [username, setUsername] = useState('')

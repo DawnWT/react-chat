@@ -1,8 +1,7 @@
+import { env } from '@src/config/env'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
-
-import { env } from '../config/env'
-import { useCurrentUserStore } from '../store/currentUserStore'
 
 export const useJWT = function () {
   const { data, isLoading, isSuccess } = useQuery<{

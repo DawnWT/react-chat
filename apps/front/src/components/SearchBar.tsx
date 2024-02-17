@@ -1,10 +1,10 @@
-import '../styles/SearchBar.css'
+import '@src/styles/SearchBar.css'
 
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Box, styled } from '@panda/jsx'
 import React from 'react'
 
-import { Box, styled } from '../../styled-system/jsx'
 import { TextInput } from './TextInput'
 
 type dataListValueType = number | string

@@ -1,10 +1,9 @@
+import { HStack, styled, VStack } from '@panda/jsx'
+import { Button } from '@src/components/Button'
+import { useLogout } from '@src/hooks/useLogout'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useCallback } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-
-import { HStack, styled, VStack } from '../../styled-system/jsx'
-import { Button } from '../components/Button'
-import { useLogout } from '../hooks/useLogout'
-import { useCurrentUserStore } from '../store/currentUserStore'
 
 export const ProtectedLayout = function () {
   const { loggedIn, username } = useCurrentUserStore()

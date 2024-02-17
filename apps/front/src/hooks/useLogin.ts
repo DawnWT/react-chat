@@ -1,8 +1,7 @@
+import { env } from '@src/config/env.js'
+import { useCurrentUserStore } from '@src/store/currentUserStore.js'
 import { useMutation } from '@tanstack/react-query'
 import { useEffect } from 'react'
-
-import { env } from '../config/env.js'
-import { useCurrentUserStore } from '../store/currentUserStore.js'
 
 interface LoginRouteResponseJson {
   id: number
