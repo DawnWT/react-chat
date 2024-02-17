@@ -99,6 +99,12 @@ auth.post(
 
 })
 
+auth.get('/jwt', jwt({ secret: env.JWT_SECRET, cookie: 'jwt' }), (ctx) => {
+  const payload = ctx.get('jwtPayload') as Payload
+
+  return ctx.json(payload)
+})
+
 auth.get('/logout', jwt({ secret: env.JWT_SECRET, cookie: 'jwt' }), (ctx) => {
   deleteCookie(ctx, 'jwt')
 
