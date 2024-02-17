@@ -6,10 +6,10 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "rm -rf dist && tsc && node --env-file=.env.local dist/main.js",
-    "migrate": "rm -rf dist && tsc && node --env-file=.env.local dist/migrate.js",
-    "build": "rm -rf dist && tsc",
-    "start": "node --env-file=.env.local dist/main.js"
+    "dev": "tsx --watch src/main.ts",
+    "init": "tsx src/migrate.ts",
+    "build": "rm -rf dist && tsc && tsup ./src/* --format esm",
+    "start": "node dist/main.mjs"
   },
   "dependencies": {
     "@hono/node-server": "^1.7.0",
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@types/cookie": "^0.6.0",
     "@types/pg": "^8.11.0",
+    "@types/socket-events": "*",
     "tsup": "^8.0.2",
     "tsx": "^4.7.1"
   }
