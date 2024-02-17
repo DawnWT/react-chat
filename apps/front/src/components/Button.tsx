@@ -17,6 +17,11 @@ export const Button = styled('button', {
       transitionDuration: '0.2s',
     },
     _focus: {
+      backgroundColor: 'gray.200',
+      transition: 'ease-in-out',
+      transitionDuration: '0.2s',
+    },
+    _active: {
       backgroundColor: 'gray.300',
       transition: 'ease-in-out',
       transitionDuration: '0.2s',
