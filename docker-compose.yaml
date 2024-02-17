@@ -4,9 +4,56 @@ services:
   database:
     image: postgres:16.1-alpine
     restart: always
-    ports:
-      - "5432:5432"
+    expose:
+      - 5432
     environment:
       - POSTGRES_USER=kysely_usr
       - POSTGRES_PASSWORD=kysely_pwd
       - POSTGRES_DB=chat-app
+    networks:
+      - backend
+
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+      args:
+        WORKSPACE: server
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=database
+      - DATABASE_USER=kysely_usr
+      - DATABASE_PASSWORD=kysely_pwd
+      - DATABASE_PORT=5432
+      - JWT_SECRET=veryscretjwt
+    volumes:
+      - ./apps/server:/app/apps/server
+      - /app/apps/server/node_modules
+    depends_on:
+      - database
+    networks:
+      - frontend
+      - backend
+
+  front:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.dev
+      args:
+        WORKSPACE: front
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_BACKEND_URL=http://localhost:8000
+    volumes:
+      - ./apps/front:/app/apps/front
+      - /app/apps/front/node_modules
+    depends_on:
+      - server
+    networks:
+      - frontend
+
+networks:
+  frontend:
+  backend:
