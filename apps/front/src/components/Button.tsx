@@ -27,7 +27,7 @@ export const Button = styled('button', {
       transitionDuration: '0.2s',
     },
     _disabled: {
-      backgroundColor: 'gray.700',
+      backgroundColor: 'gray.400',
       transition: 'ease-in-out',
       transitionDuration: '0.2s',
       cursor: 'not-allowed',
