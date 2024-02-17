@@ -11,6 +11,7 @@ import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
 import { pool } from './database/db.js'
 import auth from './routes/auth.js'
 import messages from './routes/messages.js'
+import rooms from './routes/rooms.js'
 import { onConnection } from './routes/socket/connection.js'
 import { onMessageSend } from './routes/socket/message.js'
 import { onRoomAdded, onRoomCreate, onRoomDelete } from './routes/socket/room.js'
@@ -31,6 +32,7 @@ app.get('/', (ctx) => ctx.text('Hello World'))
 app.route('/auth', auth)
 app.route('/users', users)
 app.route('/messages', messages)
+app.route('/rooms', rooms)
 
 const server = serve(
   {
