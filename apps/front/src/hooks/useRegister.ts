@@ -28,6 +28,9 @@ export const useRegister = function ({ onError = () => void 0, onSuccess = () =>
     mutationFn: ({ username, displayName, password }: useRegisterMutateProps) =>
       fetch(`${env.VITE_BACKEND_URL}/auth/register`, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({ username, displayName, password }),
         credentials: 'include',
       }).then((res) => {
