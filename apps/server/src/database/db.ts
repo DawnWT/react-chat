@@ -16,21 +16,6 @@ export const pool = new Pool({
   port: env.DATABASE_PORT,
 })
 
-pool
-  .query(
-    `
-  CREATE TABLE IF NOT EXISTS socket_io_attachments (
-      id          bigserial UNIQUE,
-      created_at  timestamptz DEFAULT NOW(),
-      payload     bytea
-  );
-`
-  )
-  .catch(() => {
-    console.log('could not create table for Postgres Socket Adapter')
-    process.exit(1)
-  })
-
 const dialect = new PostgresDialect({
   pool: pool,
 })

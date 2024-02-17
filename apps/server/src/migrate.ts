@@ -3,7 +3,7 @@ import { FileMigrationProvider, Migrator } from 'kysely'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { db } from './database/db.js'
+import { db, pool } from './database/db.js'
 
 const __filename = fileURLToPath(import.meta.url)
 
@@ -30,6 +30,21 @@ const migrateToLatest = async function () {
     }
   })
 
+  await pool
+    .query(
+      `
+CREATE TABLE IF NOT EXISTS socket_io_attachments (
+    id          bigserial UNIQUE,
+    created_at  timestamptz DEFAULT NOW(),
+    payload     bytea
+);
+`
+    )
+    .catch(() => {
+      console.log('could not create table for Postgres Socket Adapter')
+      process.exit(1)
+    })
+
   if (error) {
     console.error('failed to migrate')
     console.error(error)
@@ -38,5 +53,6 @@ const migrateToLatest = async function () {
 
   await db.destroy()
 }
-
-await migrateToLatest()
+;(async function () {
+  await migrateToLatest()
+})().catch(() => void 0)
