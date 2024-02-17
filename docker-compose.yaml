@@ -32,6 +32,7 @@ services:
       - /app/apps/server/node_modules
     depends_on:
       - database
+    restart: on-failure
     networks:
       - frontend
       - backend
