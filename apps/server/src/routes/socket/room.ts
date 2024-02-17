@@ -1,11 +1,9 @@
-import { db } from '../../database/db.js'
-import { ChatSocket, ChatSocketServer } from '../../types/socket.js'
+import EventEmitter from 'events'
 
-export const onRoomCreate = async function (
-  io: ChatSocketServer,
-  socket: ChatSocket,
-  otherUserId: unknown
-): Promise<void> {
+import { db } from '../../database/db.js'
+import { ChatSocket } from '../../types/socket.js'
+
+export const onRoomCreate = async function (em: EventEmitter, socket: ChatSocket, otherUserId: unknown): Promise<void> {
   if (typeof otherUserId !== 'number') {
     socket.emit('room-error', 'internal error')
     return
@@ -32,21 +30,25 @@ export const onRoomCreate = async function (
   socket.data.roomIdList.push(newRoom.id)
 
   socket.emit('room-created', newRoom.id)
-  io.serverSideEmit('room-added', otherUserId, newRoom.id)
+  em.emit(`room-added-${otherUserId}`, newRoom.id)
 }
 
-export const onRoomAdded = function (socket: ChatSocket, receiverId: number, roomId: number): void {
-  if (receiverId !== socket.data.payload.id) {
-    return
-  }
+export const onRoomAdded = function (socket: ChatSocket, roomId: number): void {
+  console.log('onRoomCreate', socket.data.payload.id)
 
   socket.data.roomIdList.push(roomId)
 
   socket.emit('room-created', roomId)
 }
 
-export const onRoomDelete = async function (socket: ChatSocket, userId: unknown, roomId: unknown) {
-  if (typeof roomId !== 'number' || typeof userId !== 'number') {
+export const onRoomDelete = async function (
+  em: EventEmitter,
+  socket: ChatSocket,
+  user1Id: unknown,
+  user2Id: unknown,
+  roomId: unknown
+) {
+  if (typeof roomId !== 'number' || typeof user1Id !== 'number' || typeof user2Id !== 'number') {
     socket.emit('room-error', "wrong data type for 'roomId' or 'userId'")
     return
   }
@@ -54,13 +56,23 @@ export const onRoomDelete = async function (socket: ChatSocket, userId: unknown,
   const room = await db
     .deleteFrom('rooms')
     .where('id', '=', roomId)
-    .where((eb) => eb('user1_id', '=', userId).or('user2_id', '=', userId))
+    .where('user1_id', '=', user1Id)
+    .where('user2_id', '=', user2Id)
     .executeTakeFirst()
 
   if (room.numDeletedRows === BigInt(0)) {
     socket.emit('room-error', "room doesn't exist")
     return
   }
+
+  em.emit(`room-deleted-${user1Id}`, roomId)
+  em.emit(`room-deleted-${user2Id}`, roomId)
+}
+
+export const onRoomDeleted = function (socket: ChatSocket, roomId: number): void {
+  console.log('onRoomDeleted', socket.data.payload.id)
+
+  socket.data.roomIdList = socket.data.roomIdList.filter((roomIdItem) => roomId !== roomIdItem)
 
   socket.emit('room-deleted', roomId)
 }

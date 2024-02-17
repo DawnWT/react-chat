@@ -1,10 +1,9 @@
-import './helpers/env.js'
-
 import { serve } from '@hono/node-server'
 import { createAdapter } from '@socket.io/postgres-adapter'
 import EventEmitter from 'events'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { showRoutes } from 'hono/dev'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
@@ -15,7 +14,7 @@ import messages from './routes/messages.js'
 import rooms from './routes/rooms.js'
 import { onConnection } from './routes/socket/connection.js'
 import { onMessageSend } from './routes/socket/message.js'
-import { onRoomAdded, onRoomCreate, onRoomDelete } from './routes/socket/room.js'
+import { onRoomAdded, onRoomCreate, onRoomDelete, onRoomDeleted } from './routes/socket/room.js'
 import users from './routes/user.js'
 import type { InterServerEvents, SocketData } from './types/socket.js'
 
@@ -42,6 +41,7 @@ const server = serve(
     createServer,
   },
   (info) => {
+    showRoutes(app)
     console.log('server listening on', info.port)
   }
 )
@@ -67,18 +67,26 @@ io.on('connection', async (socket) => {
   })
 
   socket.on('room-create', async (otherUserId) => {
-    await onRoomCreate(io, socket, otherUserId)
+    await onRoomCreate(roomEventEmitter, socket, otherUserId)
   })
 
-  socket.on('room-delete', async (userId, roomId) => {
-    await onRoomDelete(socket, userId, roomId)
+  socket.on('room-delete', async (user1Id, user2Id, roomId) => {
+    await onRoomDelete(roomEventEmitter, socket, user1Id, user2Id, roomId)
   })
 
-  io.on('room-added', (receiverId, roomId) => {
-    onRoomAdded(socket, receiverId, roomId)
-  })
+  const onRoomAddedhandler = (roomId: number) => {
+    onRoomAdded(socket, roomId)
+  }
+
+  const onRoomDeletedhandler = (roomId: number) => {
+    onRoomDeleted(socket, roomId)
+  }
+
+  roomEventEmitter.on(`room-added-${socket.data.payload.id}`, onRoomAddedhandler)
+  roomEventEmitter.on(`room-deleted-${socket.data.payload.id}`, onRoomDeletedhandler)
 
   socket.on('disconnect', (reason) => {
+    roomEventEmitter.off(`room-added-${socket.data.payload.id}`, onRoomAddedhandler)
     console.log('disconnect', socket.id, reason)
   })
 })
