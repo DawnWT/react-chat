@@ -1,12 +1,14 @@
 import './helpers/env.js'
 
 import { serve } from '@hono/node-server'
+import { createAdapter } from '@socket.io/postgres-adapter'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { createServer } from 'http'
 import { Server } from 'socket.io'
 import type { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
 
+import { pool } from './database/db.js'
 import auth from './routes/auth.js'
 import messages from './routes/messages.js'
 import { onConnection } from './routes/socket/connection.js'
@@ -42,6 +44,8 @@ const server = serve(
 )
 
 const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEvents, SocketData>(server)
+
+io.adapter(createAdapter(pool))
 
 io.on('connection', async (socket) => {
   console.log('socket connected', socket.id)
