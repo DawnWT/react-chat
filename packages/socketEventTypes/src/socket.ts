@@ -1,7 +1,7 @@
 export interface ClientToServerEvents {
   'message-send': (roomdId: unknown, message: unknown) => void
   'room-create': (otherUserId: unknown) => void
-  'room-delete': (userId: unknown, roomId: unknown) => void
+  'room-delete': (user1Id: unknown, user2Id: unknown, roomId: unknown) => void
 }
 
 export interface ServerToClientEvents {
