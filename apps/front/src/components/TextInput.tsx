@@ -1,12 +1,14 @@
 import React, { useRef } from 'react'
 
-import { HStack, styled } from '../../styled-system/jsx'
+import { HStack, styled, VStack } from '../../styled-system/jsx'
 
 interface TextInputProps
-  extends Pick<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onKeyDown' | 'placeholder'> {
+  extends Pick<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onKeyDown' | 'placeholder' | 'value' | 'id'> {
   error?: boolean
   icon?: JSX.Element
   iconPos?: 'left' | 'right'
+  isPassword?: boolean
+  label?: string
 }
 
 const StyledInput = styled('input', {
@@ -26,11 +28,20 @@ export const TextInput = styled(function ({
   onChange,
   onKeyDown,
   placeholder,
+  value,
+  isPassword = false,
+  label,
+  id,
   ...rest
 }: TextInputProps) {
   const inputRef = useRef<HTMLInputElement>(null)
   return (
-    <>
+    <VStack gap={1}>
+      {label && (
+        <styled.label htmlFor={id} alignSelf="start">
+          {label}
+        </styled.label>
+      )}
       <HStack
         alignItems="center"
         gap="10px"
@@ -45,9 +56,17 @@ export const TextInput = styled(function ({
         onClick={() => inputRef.current?.focus()}
       >
         {iconPos === 'left' && icon}
-        <StyledInput type="text" onChange={onChange} onKeyDown={onKeyDown} placeholder={placeholder} ref={inputRef} />
+        <StyledInput
+          type={isPassword ? 'password' : 'text'}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          placeholder={placeholder}
+          value={value}
+          id={id}
+          ref={inputRef}
+        />
         {iconPos === 'right' && icon}
       </HStack>
-    </>
+    </VStack>
   )
 })
