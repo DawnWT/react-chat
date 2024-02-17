@@ -97,8 +97,12 @@ auth.post(
     const jwt = await sign(payload, env.JWT_SECRET)
     setCookie(ctx, 'jwt', jwt)
 
-    return ctx.json(payload)
-  }
-)
+})
+
+auth.get('/logout', jwt({ secret: env.JWT_SECRET, cookie: 'jwt' }), (ctx) => {
+  deleteCookie(ctx, 'jwt')
+
+  return ctx.json({ message: 'Logged out' })
+})
 
 export default auth
