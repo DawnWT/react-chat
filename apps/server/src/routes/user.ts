@@ -63,15 +63,10 @@ users.put(
     z.object({ username: z.string().optional(), displayName: z.string().optional(), password: z.string().optional() })
   ),
   async (ctx) => {
-    const queryId = ctx.req.query('id')
+    const queryId = ctx.req.param('id')
+    const parsedId = Number(queryId)
     const { username, password, displayName } = ctx.req.valid('json')
     const payload = ctx.get('jwtPayload') as Payload
-
-    if (queryId === undefined) {
-      return ctx.json({ error: 'No id provided' }, 400)
-    }
-
-    const parsedId = Number(queryId)
 
     if (Number.isNaN(parsedId)) {
       return ctx.json({ error: 'Invalid id' }, 400)
