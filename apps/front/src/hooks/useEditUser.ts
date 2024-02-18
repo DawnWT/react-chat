@@ -1,20 +1,39 @@
 import { env } from '@src/config/env.js'
-import { useQuery } from '@tanstack/react-query'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
+import { useMutation } from '@tanstack/react-query'
 
-interface useEditUserProps {
-  id: number
+interface EditUserMutateProps {
   username?: string
+  displayName?: string
   password?: string
 }
 
-export const useEditUser = function ({ id, username, password }: useEditUserProps) {
-  return useQuery<{ password: string; id: number; id_name: string; display_name: string; created_at: Date }>({
-    queryKey: ['useEditUser'],
-    queryFn: () =>
+export const useEditUser = function (id: number) {
+  const { setUser } = useCurrentUserStore()
+  return useMutation({
+    mutationKey: ['useEditUser'],
+    mutationFn: ({ username, displayName, password }: EditUserMutateProps) =>
       fetch(`${env.VITE_BACKEND_URL}/users/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ username, password }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, displayName, password }),
         credentials: 'include',
-      }).then((res) => res.json()),
+      }).then((res) => {
+        if (!res.ok) {
+          throw new Error('Username already exists')
+        }
+
+        return res.json() as Promise<{
+          password: string
+          id: number
+          username: string
+          displayName: string
+        }>
+      }),
+    onSuccess: (data) => {
+      setUser(data.id, data.username, data.displayName, data.password)
+    },
   })
 }
