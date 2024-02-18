@@ -1,4 +1,5 @@
 import { HStack, styled, VStack } from '@panda/jsx'
+import { ALink } from '@src/components/ALink'
 import { Button } from '@src/components/Button'
 import { useLogout } from '@src/hooks/useLogout'
 import { useCurrentUserStore } from '@src/store/currentUserStore'
@@ -20,9 +21,10 @@ export const ProtectedLayout = function () {
   return (
     <VStack height="100%" gap={0}>
       <styled.nav height="16" width="100%" padding="2" bgColor="gray.500">
-        <HStack flexDir="row-reverse" height="100%" alignItems="center">
+        <HStack justifyContent="space-between" height="100%" alignItems="center">
+          <ALink to="/">Home</ALink>
           <HStack>
-            <styled.span>{username}</styled.span>
+            <ALink to="/user">{username}</ALink>
             <Button disabled={isPending} onClick={handleLogOut}>
               Log Out
             </Button>
