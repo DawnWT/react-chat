@@ -4,6 +4,7 @@ import { LoginPage } from '@src/pages/Login.js'
 import { ProtectedLayout } from '@src/pages/ProtectedLayout.js'
 import { RegisterPage } from '@src/pages/Register.js'
 import { SetUserLayout } from '@src/pages/SetUserLayout.js'
+import { UserPage } from '@src/pages/UserPage'
 import { createBrowserRouter } from 'react-router-dom'
 
 export const router = createBrowserRouter([
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
           {
             path: '',
             element: <Home />,
+          },
+          {
+            path: 'user',
+            element: <UserPage />,
           },
         ],
       },
