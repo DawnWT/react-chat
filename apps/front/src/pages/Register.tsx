@@ -15,11 +15,10 @@ export const RegisterPage = function () {
 
   const navigate = useNavigate()
 
-  const { loggedIn, setUser } = useCurrentUserStore()
+  const { loggedIn } = useCurrentUserStore()
 
   const { mutate, isPending, isError } = useRegister({
-    onSuccess: useCallback((data) => {
-      setUser(data.id, data.username, data.displayName)
+    onSuccess: useCallback(() => {
       navigate('/')
     }, []),
   })

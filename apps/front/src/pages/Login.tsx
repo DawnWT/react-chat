@@ -14,11 +14,10 @@ export const LoginPage = function () {
 
   const navigate = useNavigate()
 
-  const { setUser, loggedIn } = useCurrentUserStore()
+  const { loggedIn } = useCurrentUserStore()
 
   const { mutate, isPending, isError } = useLogin({
-    onSuccess: useCallback((data) => {
-      setUser(data.id, data.username, data.displayName)
+    onSuccess: useCallback(() => {
       navigate('/')
     }, []),
   })
