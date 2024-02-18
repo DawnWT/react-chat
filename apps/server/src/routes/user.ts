@@ -1,6 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
+import { setCookie } from 'hono/cookie'
+import { jwt, sign } from 'hono/jwt'
 import { z } from 'zod'
 
 import { db } from '../database/db.js'
@@ -96,7 +97,18 @@ users.put(
       return ctx.json({ error: 'Failed to update user' }, 500)
     }
 
-    return ctx.json(updatedUser)
+    const updatePayload: Payload = {
+      id: updatedUser.id,
+      username: updatedUser.id_name,
+      displayName: updatedUser.display_name,
+      password: updatedUser.password,
+    }
+
+    const updatedJwt = await sign(updatePayload, env.JWT_SECRET)
+
+    setCookie(ctx, 'jwt', updatedJwt)
+
+    return ctx.json(updatePayload)
   }
 )
 
