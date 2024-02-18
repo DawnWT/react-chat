@@ -1,7 +1,6 @@
 import { env } from '@src/config/env.js'
 import { useCurrentUserStore } from '@src/store/currentUserStore.js'
 import { useMutation } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 interface RegisterRouteResponseJSON {
   id: number
@@ -22,7 +21,8 @@ interface useRegisterProps {
 }
 
 export const useRegister = function ({ onError = () => void 0, onSuccess = () => void 0 }: useRegisterProps = {}) {
-  const mutation = useMutation({
+  const { setUser, unsetUser } = useCurrentUserStore()
+  return useMutation({
     mutationKey: ['useRegister'],
     mutationFn: ({ username, displayName, password }: useRegisterMutateProps) =>
       fetch(`${env.VITE_BACKEND_URL}/auth/register`, {
@@ -39,16 +39,13 @@ export const useRegister = function ({ onError = () => void 0, onSuccess = () =>
 
         return res.json() as Promise<RegisterRouteResponseJSON>
       }),
-    onError,
-    onSuccess,
+    onSuccess: (data, variables, context) => {
+      setUser(data.id, data.username, data.displayName, data.password)
+      onSuccess(data, variables, context)
+    },
+    onError: (data, variables, context) => {
+      unsetUser()
+      onError(data, variables, context)
+    },
   })
-  const { setUser } = useCurrentUserStore()
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      setUser(mutation.data.id, mutation.data.username, mutation.data.displayName)
-    }
-  }, [mutation.isPending])
-
-  return mutation
 }

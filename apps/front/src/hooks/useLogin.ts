@@ -1,7 +1,6 @@
 import { env } from '@src/config/env.js'
 import { useCurrentUserStore } from '@src/store/currentUserStore.js'
 import { useMutation } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 interface LoginRouteResponseJson {
   id: number
@@ -21,7 +20,8 @@ interface useLoginMutateProps {
 }
 
 export const useLogin = function ({ onError = () => void 0, onSuccess = () => void 0 }: useLoginProps = {}) {
-  const mutation = useMutation({
+  const { setUser, unsetUser } = useCurrentUserStore()
+  return useMutation({
     mutationKey: ['useLogin'],
     mutationFn: (formData: useLoginMutateProps) =>
       fetch(`${env.VITE_BACKEND_URL}/auth/login`, {
@@ -38,17 +38,13 @@ export const useLogin = function ({ onError = () => void 0, onSuccess = () => vo
 
         throw new Error('Invalid username or password')
       }),
-
-    onSuccess,
-    onError,
+    onSuccess: (data, variables, context) => {
+      setUser(data.id, data.username, data.displayName, data.password)
+      onSuccess(data, variables, context)
+    },
+    onError: (data, variables, context) => {
+      unsetUser()
+      onError(data, variables, context)
+    },
   })
-  const { setUser } = useCurrentUserStore()
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
-      setUser(mutation.data.id, mutation.data.username, mutation.data.displayName)
-    }
-  }, [mutation.isPending])
-
-  return mutation
 }

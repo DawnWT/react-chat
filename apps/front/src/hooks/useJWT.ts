@@ -33,7 +33,7 @@ export const useJWT = function () {
     if (isLoading) return
 
     if (isSuccess) {
-      setUser(data.id, data.username, data.displayName)
+      setUser(data.id, data.username, data.displayName, data.password)
     } else {
       unsetUser()
     }

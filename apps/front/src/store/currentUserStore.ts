@@ -4,11 +4,12 @@ interface CurrentUserState {
   userId: number
   username: string
   displayName: string
+  password: string
   loggedIn: boolean
 }
 
 interface CurrentUserActions {
-  setUser: (id: number, username: string, displayName: string) => void
+  setUser: (id: number, username: string, displayName: string, password: string) => void
   unsetUser: () => void
 }
 
@@ -16,11 +17,12 @@ export const useCurrentUserStore = create<CurrentUserState & CurrentUserActions>
   userId: -1,
   username: '',
   displayName: '',
+  password: '',
   loggedIn: false,
-  setUser: (id, username, displayName) => {
-    set({ userId: id, username, displayName, loggedIn: true })
+  setUser: (id, username, displayName, password) => {
+    set({ userId: id, username, displayName, password, loggedIn: true })
   },
   unsetUser: () => {
-    set({ userId: -1, username: '', displayName: '', loggedIn: false })
+    set({ userId: -1, username: '', displayName: '', password: '', loggedIn: false })
   },
 }))

@@ -1,10 +1,10 @@
 import { env } from '@src/config/env'
 import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useMutation } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 export const useLogout = function () {
-  const mutation = useMutation({
+  const { unsetUser } = useCurrentUserStore()
+  return useMutation({
     mutationKey: ['useLogout'],
     mutationFn: () =>
       fetch(`${env.VITE_BACKEND_URL}/auth/logout`, {
@@ -17,14 +17,8 @@ export const useLogout = function () {
 
         throw new Error('Invalid Token')
       }),
-  })
-  const { unsetUser } = useCurrentUserStore()
-
-  useEffect(() => {
-    if (mutation.isSuccess) {
+    onSuccess: () => {
       unsetUser()
-    }
-  }, [mutation.isPending])
-
-  return mutation
+    },
+  })
 }
