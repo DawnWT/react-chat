@@ -53,8 +53,6 @@ io.adapter(createAdapter(pool))
 const roomEventEmitter = new EventEmitter()
 
 io.on('connection', async (socket) => {
-  console.log('socket connected', socket.id)
-
   const hasPassed = await onConnection(socket)
 
   if (!hasPassed) {
@@ -85,8 +83,7 @@ io.on('connection', async (socket) => {
   roomEventEmitter.on(`room-added-${socket.data.payload.id}`, onRoomAddedhandler)
   roomEventEmitter.on(`room-deleted-${socket.data.payload.id}`, onRoomDeletedhandler)
 
-  socket.on('disconnect', (reason) => {
+  socket.on('disconnect', () => {
     roomEventEmitter.off(`room-added-${socket.data.payload.id}`, onRoomAddedhandler)
-    console.log('disconnect', socket.id, reason)
   })
 })
