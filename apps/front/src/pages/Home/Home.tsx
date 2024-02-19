@@ -3,7 +3,7 @@ import { RoomSideBar } from '@src/pages/Home/RoomSideBar'
 import { ChatRoom } from './ChatRoom'
 
 export const Home = () => {
-  const roomId = parseInt(localStorage.getItem('roomId') || '')
+  const roomId = parseInt(localStorage.getItem('roomId') || '0')
   return (
     <div
       className={css({
