@@ -2,7 +2,9 @@ import { css } from '@panda/css';
 import { InputText } from '@src/components/InputText';
 import { SocketEvent, useSocket } from '@src/hooks/useSocket';
 import { useGetMessageList } from '@src/hooks/usegetMessageList';
+import MessageBubble from '@src/components/Bulle-message';
 import { socket } from '@src/socket';
+import { useCurrentUserStore } from '@src/store/currentUserStore';
 
 interface ChatRoomProps {
     roomId: number;
@@ -10,6 +12,7 @@ interface ChatRoomProps {
 
 export const ChatRoom: React.FC<ChatRoomProps> = ({roomId}) => {
     const { data: messages, refetch } = useGetMessageList({ roomId });
+    const { userId, username } = useCurrentUserStore()
 
     const socketEventList: SocketEvent[] = [
         {
@@ -31,23 +34,39 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({roomId}) => {
     return (
         <div
             className={css({
-                display: 'flex',
-                flex: 1,
+                display: 'grid',
+                gridTemplateRows: '1fr auto',
                 backgroundColor: '#343434',
+                width: '80%',
+                height: '100%',
             })}
         >
-            {messages?.map((v) => (
-                <div key={v.created_at.toString()} className={css({ color: 'white' })}>
-                    {v.content}
-                </div>
-            ))}
             <div
                 className={css({
                     display: 'flex',
-                    flex: 1,
+                    flexDirection: 'column',
+                    flex: 6,
+                    maxHeight: '88vh',
+                    width: '100%',
+                    overflowY: 'auto',
+                    scrollbarWidth: 'thin', // Pour Firefox
+                    scrollbarColor: 'black #333', // Pour Chrome et Edge
+                })}
+            >
+                {messages?.map((v) => (
+                    <MessageBubble
+                        key={v.created_at.toString()}
+                        sender={v.from === userId}
+                        message={v.content}
+                    />
+                ))}
+            </div>
+            <div
+                className={css({
+                    display: 'flex',
+                    height: 'auto',
                     justifyContent: 'center',
                     alignItems: 'flex-end',
-                    height: '99%',
                 })}
             >
                 <InputText onSubmit={handleSubmit} />

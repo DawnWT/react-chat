@@ -9,11 +9,11 @@ import { UserSearchBar } from '../../components/UserSearchBar'
 import { PrivateMessage } from '@src/components/PrivateMessage'
 
 export const RoomSideBar = function () {
-  const { userId, username } = useCurrentUserStore()
-  const { data, isSuccess, refetch } = useGetUserRoomList(userId)
+  const { userId, username } = useCurrentUserStore();
+  const { data, isSuccess, refetch } = useGetUserRoomList(userId);
 
   const onConfirmUser = useCallback((id: number) => {
-    socket.emit('room-create', id)
+    socket.emit('room-create', id);
   }, [])
 
   const EventList: SocketEvent[] = [
@@ -51,17 +51,6 @@ export const RoomSideBar = function () {
       })}
     >
       <UserSearchBar onConfirm={onConfirmUser} />
-      {/* <ul>
-        {isSuccess &&
-          data.rooms.map((v) => (
-            <li key={v.id}>
-              <span>
-                {v.id} | {v.user1_display_name} | {v.user2_display_name} | {v.content} |{' '}
-              </span>
-              <button onClick={() => socket.emit('room-delete', v.user1_id, v.user2_id, v.id)}>del</button>
-            </li>
-          ))}
-      </ul> */}
       {isSuccess &&
         data.rooms.map((v) => (
           <PrivateMessage
@@ -69,6 +58,7 @@ export const RoomSideBar = function () {
             userName={(username === v.user1_display_name ? v.user2_display_name : v.user1_display_name) ?? ''}
             message={v.content || 'No message'}
             onClick={() => handleRoomClick(v.id)}
+            onDelete={() => socket.emit('room-delete', v.user1_id, v.user2_id, v.id)}
           />
         ))
       }
