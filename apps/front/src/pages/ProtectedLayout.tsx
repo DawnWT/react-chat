@@ -22,9 +22,13 @@ export const ProtectedLayout = function () {
     <VStack height="100vh" gap={0}>
       <styled.nav height="16" width="100%" padding="2" bgColor="#252525">
         <HStack justifyContent="space-between" height="100%" alignItems="center">
-          <ALink color="white" to="/">Home</ALink>
+          <ALink color="white" to="/">
+            Home
+          </ALink>
           <HStack>
-            <ALink color="white" to="/user">{username}</ALink>
+            <ALink color="white" to="/user">
+              {username}
+            </ALink>
             <Button color="white" disabled={isPending} onClick={handleLogOut}>
               Log Out
             </Button>

@@ -62,6 +62,8 @@ export const onRoomDelete = async function (
     return
   }
 
+  await db.deleteFrom('messages').where('parent_room', '=', roomId).execute()
+
   const room = await db
     .deleteFrom('rooms')
     .where('id', '=', roomId)
