@@ -1,5 +1,5 @@
 import { AuthLayout } from '@src/pages/AuthLayout.js'
-import { Home } from '@src/pages/Home.js'
+import { Home } from '@src/pages/Home/Home.js'
 import { LoginPage } from '@src/pages/Login.js'
 import { ProtectedLayout } from '@src/pages/ProtectedLayout.js'
 import { RegisterPage } from '@src/pages/Register.js'
