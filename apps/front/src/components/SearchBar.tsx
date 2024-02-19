@@ -31,6 +31,7 @@ export const SearchBar = function <T extends dataListValueType>({
       <TextInput
         backgroundColor="#3a3a3a"
         icon={<FontAwesomeIcon icon={faSearch} color="white" />}
+        value={input}
         onChange={onChange}
         onKeyDown={onKeyDown}
         error={error}
@@ -53,14 +54,17 @@ export const SearchBar = function <T extends dataListValueType>({
             <styled.li
               paddingX="16px"
               paddingY="8px"
+              backgroundColor="#3a3a3a"
+              color="white"
               _last={{
                 borderBottomRadius: '4px',
               }}
               _hover={{
-                backgroundColor: '#f3f3f3',
+                cursor: 'pointer',
+                backgroundColor: '#4a4a4a',
               }}
               _focus={{
-                backgroundColor: '#f3f3f3',
+                backgroundColor: '#4a4a4a',
               }}
               tabIndex={0}
               key={index}

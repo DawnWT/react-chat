@@ -56,6 +56,9 @@ export const TextInput = styled(function ({
       >
         {iconPos === 'left' && icon}
         <StyledInput
+          width="100%"
+          backgroundColor="inherit"
+          color="white"
           type={isPassword ? 'password' : 'text'}
           onChange={onChange}
           onKeyDown={onKeyDown}

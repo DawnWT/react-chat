@@ -30,6 +30,7 @@ export const UserSearchBar = function ({ onConfirm }: UserSearchBarProps) {
           return
         }
 
+        setInput('')
         onConfirm(selected.value)
       }
     },
@@ -45,6 +46,7 @@ export const UserSearchBar = function ({ onConfirm }: UserSearchBarProps) {
         return
       }
 
+      setInput('')
       onConfirm(selected.value)
     },
     [parsedData]
