@@ -30,7 +30,9 @@ export const UserPage = function () {
       gridTemplateRows="1fr max-content 1fr"
       height="100%"
     >
-      <Heading align="center">{displayName}</Heading>
+      <Heading align="center" color="white">
+        {displayName}
+      </Heading>
       <styled.form onSubmit={handleSubmit} gridRow="2 / -2">
         <Card>
           <TextInput
@@ -58,10 +60,10 @@ export const UserPage = function () {
               setPasswordForm(e.currentTarget.value)
             }}
           />
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" disabled={isPending} color="white">
             Enregistrer
           </Button>
-          {isSuccess && <styled.span color="green.500">Enregistrement effectuer</styled.span>}
+          {isSuccess && <styled.span color="green.300">Enregistrement effectuer</styled.span>}
         </Card>
       </styled.form>
     </Container>

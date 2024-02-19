@@ -1,5 +1,6 @@
 import { css } from '@panda/css'
 import { RoomSideBar } from '@src/pages/Home/RoomSideBar'
+
 import { ChatRoom } from './ChatRoom'
 
 export const Home = () => {

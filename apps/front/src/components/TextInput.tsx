@@ -37,7 +37,7 @@ export const TextInput = styled(function ({
   return (
     <VStack gap={1}>
       {label && (
-        <styled.label htmlFor={id} alignSelf="start">
+        <styled.label htmlFor={id} alignSelf="start" color="white">
           {label}
         </styled.label>
       )}
