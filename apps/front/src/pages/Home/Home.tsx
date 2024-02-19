@@ -1,9 +1,11 @@
 import { css } from '@panda/css'
+import { useLocalStorage } from '@src/hooks/useLocalStorage'
 import { RoomSideBar } from '@src/pages/Home/RoomSideBar'
+
 import { ChatRoom } from './ChatRoom'
 
 export const Home = () => {
-  const roomId = parseInt(localStorage.getItem('roomId') || '0')
+  const [roomId, setRoomId] = useLocalStorage('roomId', 0)
   return (
     <div
       className={css({
@@ -12,7 +14,7 @@ export const Home = () => {
         height: '100%',
       })}
     >
-      <RoomSideBar />
+      <RoomSideBar setRoomId={setRoomId} />
       <ChatRoom roomId={roomId} />
     </div>
   )

@@ -8,7 +8,10 @@ import { useCallback } from 'react'
 
 import { UserSearchBar } from '../../components/UserSearchBar'
 
-export const RoomSideBar = function () {
+interface RoomSideBarProps {
+  setRoomId: (id: number) => void
+}
+export const RoomSideBar = function ({ setRoomId }: RoomSideBarProps) {
   const { userId, username } = useCurrentUserStore()
   const { data, isSuccess, refetch } = useGetUserRoomList(userId)
 
@@ -32,7 +35,7 @@ export const RoomSideBar = function () {
   ]
 
   const handleRoomClick = (id: number) => {
-    localStorage.setItem('roomId', id.toString())
+    setRoomId(id)
   }
 
   useSocket(EventList)

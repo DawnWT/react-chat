@@ -18,7 +18,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
     {
       name: 'message-sent',
       handler: () => {
-        refetch()
+        void refetch()
       },
     },
   ]
@@ -27,7 +27,7 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
 
   const handleSubmit = (value: string) => {
     socket.emit('message-send', roomId, value)
-    refetch()
+    void refetch()
   }
 
   return (
