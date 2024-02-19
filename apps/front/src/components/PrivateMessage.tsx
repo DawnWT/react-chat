@@ -15,14 +15,13 @@ export const PrivateMessage: React.FC<PrivateMessageProps> = ({ userName, messag
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      maxWidth="300px"
+      maxWidth="100vh"
       height="60px"
       borderRadius="4px"
       overflow="hidden"
       color="white"
       padding="4px"
       margin="8px"
-      // onClick={onClick}
       css={{
         '&:hover': {
           backgroundColor: '#3c3c3c',

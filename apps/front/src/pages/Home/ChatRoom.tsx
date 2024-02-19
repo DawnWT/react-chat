@@ -12,7 +12,7 @@ interface ChatRoomProps {
 
 export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const { data: messages, refetch } = useGetMessageList({ roomId })
-  const { userId, username } = useCurrentUserStore()
+  const { userId } = useCurrentUserStore()
 
   const socketEventList: SocketEvent[] = [
     {
@@ -28,7 +28,6 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
   const handleSubmit = (value: string) => {
     socket.emit('message-send', roomId, value)
     refetch()
-    console.log(value)
   }
 
   return (
@@ -49,8 +48,8 @@ export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
           maxHeight: '88vh',
           width: '100%',
           overflowY: 'auto',
-          scrollbarWidth: 'thin', // Pour Firefox
-          scrollbarColor: 'black #333', // Pour Chrome et Edge
+          scrollbarWidth: 'thin',
+          scrollbarColor: 'black #333',
         })}
       >
         {messages?.map((v) => (

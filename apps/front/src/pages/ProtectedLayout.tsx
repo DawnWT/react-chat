@@ -1,4 +1,4 @@
-import { Grid, HStack, styled, VStack } from '@panda/jsx'
+import { HStack, styled, VStack } from '@panda/jsx'
 import { ALink } from '@src/components/ALink'
 import { Button } from '@src/components/Button'
 import { useLogout } from '@src/hooks/useLogout'
