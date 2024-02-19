@@ -15,6 +15,17 @@ export const onRoomCreate = async function (em: EventEmitter, socket: ChatSocket
     return
   }
 
+  const roomExist = await db
+    .selectFrom('rooms')
+    .where((eb) => eb('user1_id', '=', socket.data.payload.id).or('user2_id', '=', socket.data.payload.id))
+    .where((eb) => eb('user1_id', '=', otherUserId).or('user2_id', '=', otherUserId))
+    .executeTakeFirst()
+
+  if (roomExist !== undefined) {
+    socket.emit('room-error', 'room already exist')
+    return
+  }
+
   const newRoom = await db
     .insertInto('rooms')
     // eslint-disable-next-line camelcase
