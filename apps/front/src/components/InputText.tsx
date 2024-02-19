@@ -24,14 +24,13 @@ export const InputText: React.FC<InputTextProps> = ({ onSubmit }) => {
   }
 
   return (
-    <div>
-      <textarea
-        className="input-text"
-        value={inputValue}
-        onChange={handleInputChange}
-        onKeyDown={handleKeyPress}
-        rows={1}
-      />
-    </div>
+    <textarea
+      className="input-text"
+      value={inputValue}
+      placeholder='Type a message...'
+      onChange={handleInputChange}
+      onKeyDown={handleKeyPress}
+      rows={1}
+    />
   )
 }
