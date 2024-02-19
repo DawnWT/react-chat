@@ -45,8 +45,6 @@ export const onRoomCreate = async function (em: EventEmitter, socket: ChatSocket
 }
 
 export const onRoomAdded = function (socket: ChatSocket, roomId: number): void {
-  console.log('onRoomCreate', socket.data.payload.id)
-
   socket.data.roomIdList.push(roomId)
 
   socket.emit('room-created', roomId)
@@ -81,8 +79,6 @@ export const onRoomDelete = async function (
 }
 
 export const onRoomDeleted = function (socket: ChatSocket, roomId: number): void {
-  console.log('onRoomDeleted', socket.data.payload.id)
-
   socket.data.roomIdList = socket.data.roomIdList.filter((roomIdItem) => roomId !== roomIdItem)
 
   socket.emit('room-deleted', roomId)
