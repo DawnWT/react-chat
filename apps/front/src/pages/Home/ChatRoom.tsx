@@ -1,76 +1,72 @@
-import { css } from '@panda/css';
-import { InputText } from '@src/components/InputText';
-import { SocketEvent, useSocket } from '@src/hooks/useSocket';
-import { useGetMessageList } from '@src/hooks/usegetMessageList';
-import MessageBubble from '@src/components/Bulle-message';
-import { socket } from '@src/socket';
-import { useCurrentUserStore } from '@src/store/currentUserStore';
+import { css } from '@panda/css'
+import MessageBubble from '@src/components/Bulle-message'
+import { InputText } from '@src/components/InputText'
+import { useGetMessageList } from '@src/hooks/usegetMessageList'
+import { SocketEvent, useSocket } from '@src/hooks/useSocket'
+import { socket } from '@src/socket'
+import { useCurrentUserStore } from '@src/store/currentUserStore'
 
 interface ChatRoomProps {
-    roomId: number;
+  roomId: number
 }
 
-export const ChatRoom: React.FC<ChatRoomProps> = ({roomId}) => {
-    const { data: messages, refetch } = useGetMessageList({ roomId });
-    const { userId, username } = useCurrentUserStore()
+export const ChatRoom: React.FC<ChatRoomProps> = ({ roomId }) => {
+  const { data: messages, refetch } = useGetMessageList({ roomId })
+  const { userId, username } = useCurrentUserStore()
 
-    const socketEventList: SocketEvent[] = [
-        {
-            name: 'message-sent',
-            handler: () => {
-                refetch();
-            }
-        }
-    ]
+  const socketEventList: SocketEvent[] = [
+    {
+      name: 'message-sent',
+      handler: () => {
+        refetch()
+      },
+    },
+  ]
 
-    useSocket(socketEventList);
-    
-    const handleSubmit = (value: string) => {
-        socket.emit('message-send', roomId, value);
-        refetch();
-        console.log(value);
-    };
+  useSocket(socketEventList)
 
-    return (
-        <div
-            className={css({
-                display: 'grid',
-                gridTemplateRows: '1fr auto',
-                backgroundColor: '#343434',
-                width: '80%',
-                height: '100%',
-            })}
-        >
-            <div
-                className={css({
-                    display: 'flex',
-                    flexDirection: 'column',
-                    flex: 6,
-                    maxHeight: '88vh',
-                    width: '100%',
-                    overflowY: 'auto',
-                    scrollbarWidth: 'thin', // Pour Firefox
-                    scrollbarColor: 'black #333', // Pour Chrome et Edge
-                })}
-            >
-                {messages?.map((v) => (
-                    <MessageBubble
-                        key={v.created_at.toString()}
-                        sender={v.from === userId}
-                        message={v.content}
-                    />
-                ))}
-            </div>
-            <div
-                className={css({
-                    display: 'flex',
-                    height: 'auto',
-                    justifyContent: 'center',
-                    alignItems: 'flex-end',
-                })}
-            >
-                <InputText onSubmit={handleSubmit} />
-            </div>
-        </div>
-    );
-};
+  const handleSubmit = (value: string) => {
+    socket.emit('message-send', roomId, value)
+    refetch()
+    console.log(value)
+  }
+
+  return (
+    <div
+      className={css({
+        display: 'grid',
+        gridTemplateRows: '1fr auto',
+        backgroundColor: '#343434',
+        width: '80%',
+        height: '100%',
+      })}
+    >
+      <div
+        className={css({
+          display: 'flex',
+          flexDirection: 'column',
+          flex: 6,
+          maxHeight: '88vh',
+          width: '100%',
+          overflowY: 'auto',
+          scrollbarWidth: 'thin', // Pour Firefox
+          scrollbarColor: 'black #333', // Pour Chrome et Edge
+        })}
+      >
+        {messages?.map((v) => (
+          <MessageBubble key={v.created_at.toString()} sender={v.from === userId} message={v.content} />
+        ))}
+      </div>
+      <div
+        className={css({
+          display: 'flex',
+          height: 'auto',
+          justifyContent: 'center',
+          alignItems: 'flex-end',
+        })}
+      >
+        <InputText onSubmit={handleSubmit} />
+      </div>
+    </div>
+  )
+}
