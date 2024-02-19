@@ -1,4 +1,4 @@
-import { HStack, styled, VStack } from '@panda/jsx'
+import { Grid, HStack, styled, VStack } from '@panda/jsx'
 import { ALink } from '@src/components/ALink'
 import { Button } from '@src/components/Button'
 import { useLogout } from '@src/hooks/useLogout'
@@ -19,7 +19,7 @@ export const ProtectedLayout = function () {
   }
 
   return (
-    <VStack height="100%" gap={0}>
+    <VStack height="100vh" gap={0}>
       <styled.nav height="16" width="100%" padding="2" bgColor="#252525">
         <HStack justifyContent="space-between" height="100%" alignItems="center">
           <ALink color="white" to="/">Home</ALink>
