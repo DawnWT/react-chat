@@ -59,7 +59,10 @@ export const RoomSideBar = function ({ setRoomId }: RoomSideBarProps) {
             onClick={() => {
               handleRoomClick(v.id)
             }}
-            onDelete={() => socket.emit('room-delete', v.user1_id, v.user2_id, v.id)}
+            onDelete={() => {
+              setRoomId(0)
+              socket.emit('room-delete', v.user1_id, v.user2_id, v.id)
+            }}
           />
         ))}
     </div>
