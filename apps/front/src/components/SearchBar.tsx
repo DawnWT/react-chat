@@ -28,7 +28,13 @@ export const SearchBar = function <T extends dataListValueType>({
 }: SearchBarProps<T>) {
   return (
     <Box position="relative" width="100%">
-      <TextInput backgroundColor="#3a3a3a" icon={<FontAwesomeIcon icon={faSearch} color='white' />} onChange={onChange} onKeyDown={onKeyDown} error={error} />
+      <TextInput
+        backgroundColor="#3a3a3a"
+        icon={<FontAwesomeIcon icon={faSearch} color="white" />}
+        onChange={onChange}
+        onKeyDown={onKeyDown}
+        error={error}
+      />
 
       {dataList.length > 0 && input.length > 0 && (
         <styled.ul
