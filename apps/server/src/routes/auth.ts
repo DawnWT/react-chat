@@ -2,11 +2,11 @@ import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { deleteCookie, setCookie } from 'hono/cookie'
 import { jwt, sign } from 'hono/jwt'
+import { Payload } from 'shared-types'
 import { z } from 'zod'
 
 import { db } from '../database/db.js'
 import { env } from '../helpers/env.js'
-import { Payload } from '../types/auth.js'
 
 const auth = new Hono()
 

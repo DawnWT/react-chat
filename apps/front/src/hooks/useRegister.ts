@@ -1,13 +1,14 @@
 import { env } from '@src/config/env.js'
 import { useCurrentUserStore } from '@src/store/currentUserStore.js'
 import { useMutation } from '@tanstack/react-query'
+import { RegisterResponse } from 'shared-types'
 
-interface RegisterRouteResponseJSON {
-  id: number
-  username: string
-  displayName: string
-  password: string
-}
+// interface RegisterRouteResponseJSON {
+//   id: number
+//   username: string
+//   displayName: string
+//   password: string
+// }
 
 interface useRegisterMutateProps {
   username: string
@@ -17,7 +18,7 @@ interface useRegisterMutateProps {
 
 interface useRegisterProps {
   onError?: (error: Error, variables: useRegisterMutateProps, context: unknown) => unknown
-  onSuccess?: (data: RegisterRouteResponseJSON, variables: useRegisterMutateProps, context: unknown) => unknown
+  onSuccess?: (data: RegisterResponse, variables: useRegisterMutateProps, context: unknown) => unknown
 }
 
 export const useRegister = function ({ onError = () => void 0, onSuccess = () => void 0 }: useRegisterProps = {}) {
@@ -37,7 +38,7 @@ export const useRegister = function ({ onError = () => void 0, onSuccess = () =>
           throw new Error('Username already exists')
         }
 
-        return res.json() as Promise<RegisterRouteResponseJSON>
+        return res.json() as Promise<RegisterResponse>
       }),
     onSuccess: (data, variables, context) => {
       setUser(data.id, data.username, data.displayName, data.password)

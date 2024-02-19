@@ -1,5 +1,6 @@
 import { env } from '@src/config/env.js'
 import { useQuery } from '@tanstack/react-query'
+import { GetRoomListResponse } from 'shared-types'
 
 export const useGetRoomList = function () {
   return useQuery<Array<{ id: number; created_at: Date }>>({
@@ -7,6 +8,6 @@ export const useGetRoomList = function () {
     queryFn: async () =>
       fetch(`${env.VITE_BACKEND_URL}/rooms`, {
         credentials: 'include',
-      }).then((res) => res.json()),
+      }).then((res) => res.json() as Promise<GetRoomListResponse>),
   })
 }

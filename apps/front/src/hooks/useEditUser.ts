@@ -1,6 +1,7 @@
 import { env } from '@src/config/env.js'
 import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useMutation } from '@tanstack/react-query'
+import { EditUserResponse } from 'shared-types'
 
 interface EditUserMutateProps {
   username?: string
@@ -25,12 +26,7 @@ export const useEditUser = function (id: number) {
           throw new Error('Username already exists')
         }
 
-        return res.json() as Promise<{
-          password: string
-          id: number
-          username: string
-          displayName: string
-        }>
+        return res.json() as Promise<EditUserResponse>
       }),
     onSuccess: (data) => {
       setUser(data.id, data.username, data.displayName, data.password)
