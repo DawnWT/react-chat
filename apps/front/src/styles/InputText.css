@@ -1,7 +1,10 @@
 .input-text {
     width: 50%;
+    height: 8%;
     padding: 12px;
     resize: none;
     outline: none;
     border-radius: 8px;
+    color: white;
+    background-color: #414141;
 }

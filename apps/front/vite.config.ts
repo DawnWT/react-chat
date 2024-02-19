@@ -6,5 +6,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
+    hmr: {host:'0.0.0.0'},
+    watch: {usePolling: true},
   },
 })

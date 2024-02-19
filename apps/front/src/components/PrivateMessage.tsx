@@ -1,27 +1,29 @@
-import { Card, CardActionArea, CardContent, Grid, Typography } from '@mui/material'
-import React from 'react'
+import React from 'react';
+import { Box } from '@panda/jsx';
 
 interface PrivateMessageProps {
-  firstName: string
-  lastName: string
-  message: string
+  userName: string;
+  message: string;
+  onClick?: () => void;
 }
 
-export const PrivateMessage: React.FC<PrivateMessageProps> = ({ firstName, lastName, message }) => {
+export const PrivateMessage: React.FC<PrivateMessageProps> = ({ userName, message, onClick }) => {
   return (
-    <Card sx={{ maxWidth: 300, height: 50 }}>
-      <CardActionArea>
-        <CardContent>
-          <Grid container direction="column" sx={{ height: '100%' }}>
-            <Typography variant="h6" component="div" sx={{ fontSize: '14px', fontWeight: 'bold' }}>
-              {firstName} {lastName}
-            </Typography>
-            <Typography variant="body2" color="text.secondary" sx={{ fontSize: '10px' }}>
-              {message.length > 40 ? message.substring(0, 40) + '...' : message}
-            </Typography>
-          </Grid>
-        </CardContent>
-      </CardActionArea>
-    </Card>
-  )
-}
+    <Box
+      maxWidth="300px"
+      height="50px"
+      borderRadius="4px"
+      overflow="hidden"
+      borderWidth="1px"
+      borderColor="white"
+      borderStyle="solid"
+      color="white"
+      padding="4px"
+      onClick={onClick}
+    >
+      {userName}
+      <br />
+      {message}
+    </Box>
+  );
+};

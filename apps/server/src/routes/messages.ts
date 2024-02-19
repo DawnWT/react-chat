@@ -21,12 +21,11 @@ messages.get(
     const messages = await db
       .selectFrom('rooms')
       .innerJoin('messages', 'rooms.id', 'messages.parent_room')
-      .where('id', '=', roomId)
-      .where((eb) => eb('user1_id', '=', payload.id).or('user2_id', '=', payload.id))
+      .where('rooms.id', '=', roomId)
+      .where((eb) => eb('rooms.user1_id', '=', payload.id).or('rooms.user2_id', '=', payload.id))
       .select('messages.from')
       .select('messages.content')
       .select('messages.created_at')
-      .select('created_at')
       .execute()
 
     return ctx.json(messages)
