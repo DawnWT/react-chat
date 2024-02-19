@@ -1,5 +1,5 @@
 {
-  "name": "@types/socket-events",
+  "name": "@types/shared-types",
   "main": "index.ts",
   "types": "index.ts",
   "private": true,
