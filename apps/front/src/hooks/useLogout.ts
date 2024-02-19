@@ -1,6 +1,7 @@
 import { env } from '@src/config/env'
 import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useMutation } from '@tanstack/react-query'
+import { LogoutResponse } from 'shared-types'
 
 export const useLogout = function () {
   const { unsetUser } = useCurrentUserStore()
@@ -12,7 +13,7 @@ export const useLogout = function () {
         credentials: 'include',
       }).then((res) => {
         if (res.ok) {
-          return res.json()
+          return res.json() as Promise<LogoutResponse>
         }
 
         throw new Error('Invalid Token')

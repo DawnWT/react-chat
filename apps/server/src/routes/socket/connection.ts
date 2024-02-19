@@ -1,9 +1,9 @@
 import cookie from 'cookie'
 import { verify } from 'hono/jwt'
+import { Payload } from 'shared-types'
 
 import { db } from '../../database/db.js'
 import { env } from '../../helpers/env.js'
-import { Payload } from '../../types/auth.js'
 import { ChatSocket } from '../../types/socket.js'
 const { parse } = cookie
 

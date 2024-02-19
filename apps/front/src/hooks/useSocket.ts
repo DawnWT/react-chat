@@ -1,6 +1,6 @@
 import { socket } from '@src/socket.js'
-import type { ServerToClientEvents } from '@types/socket-events'
 import { useEffect } from 'react'
+import type { ServerToClientEvents } from 'shared-types'
 
 export type SocketEvent = {
   [K in keyof ServerToClientEvents]: {

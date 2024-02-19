@@ -2,6 +2,7 @@ import { env } from '@src/config/env'
 import { useCurrentUserStore } from '@src/store/currentUserStore'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import { JwtResponse } from 'shared-types'
 
 export const useJWT = function () {
   const { data, isLoading, isSuccess } = useQuery<{
@@ -19,7 +20,7 @@ export const useJWT = function () {
         credentials: 'include',
       }).then((res) => {
         if (res.ok) {
-          return res.json()
+          return res.json() as Promise<JwtResponse>
         }
 
         throw new Error('Invalid Token')

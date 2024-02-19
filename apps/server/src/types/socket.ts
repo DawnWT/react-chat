@@ -1,7 +1,5 @@
+import { ClientToServerEvents, Payload, ServerToClientEvents } from 'shared-types'
 import { Server, Socket } from 'socket.io'
-import { ClientToServerEvents, ServerToClientEvents } from 'socket-events'
-
-import type { Payload } from './auth.js'
 
 export interface InterServerEvents {
   'room-added': (receiverId: number, roomId: number) => void

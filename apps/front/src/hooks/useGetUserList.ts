@@ -1,5 +1,6 @@
 import { env } from '@src/config/env.js'
 import { useQuery } from '@tanstack/react-query'
+import { GetUserListResponse } from 'shared-types'
 
 export const useGetUserList = function (nameLike: string) {
   return useQuery<Array<{ id: number; id_name: string }>>({
@@ -8,7 +9,7 @@ export const useGetUserList = function (nameLike: string) {
       const queryParam = nameLike ? `?name=${nameLike}` : ''
       return fetch(`${env.VITE_BACKEND_URL}/users${queryParam}`, {
         credentials: 'include',
-      }).then((res) => res.json())
+      }).then((res) => res.json() as Promise<GetUserListResponse>)
     },
   })
 }

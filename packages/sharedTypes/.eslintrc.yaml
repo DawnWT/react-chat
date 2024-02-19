@@ -7,5 +7,5 @@ ignorePatterns:
 
 parserOptions:
   ecmaVersion: 2023
-  project: packages/socketEventTypes/tsconfig.json
+  project: packages/sharedTypes/tsconfig.json
   sourceType: module
