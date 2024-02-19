@@ -37,7 +37,7 @@ export const TextInput = styled(function ({
   return (
     <VStack gap={1}>
       {label && (
-        <styled.label htmlFor={id} alignSelf="start">
+        <styled.label htmlFor={id} alignSelf="start" color="white">
           {label}
         </styled.label>
       )}
@@ -59,6 +59,9 @@ export const TextInput = styled(function ({
           type={isPassword ? 'password' : 'text'}
           onChange={onChange}
           onKeyDown={onKeyDown}
+          width="100%"
+          backgroundColor="inherit"
+          color="white"
           placeholder={placeholder}
           value={value}
           id={id}

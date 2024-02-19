@@ -37,7 +37,9 @@ export const RegisterPage = function () {
 
   return (
     <>
-      <Heading align="center">Register</Heading>
+      <Heading align="center" color="white">
+        Register
+      </Heading>
       <form onSubmit={handleSubmit}>
         <Card>
           <TextInput
@@ -68,10 +70,10 @@ export const RegisterPage = function () {
             label="Mot de passe"
             id="formPassword"
           />
-          <ALink to="/login" alignSelf="end">
+          <ALink to="/login" alignSelf="end" color="white">
             se connecter
           </ALink>
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" disabled={isPending} color="white">
             Submit
           </Button>
         </Card>

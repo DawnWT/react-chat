@@ -12,22 +12,22 @@ export const Button = styled('button', {
     cursor: 'pointer',
     fontWeight: 'medium',
     _hover: {
-      backgroundColor: 'gray.200',
+      backgroundColor: 'gray.600',
       transition: 'ease-in-out',
       transitionDuration: '0.2s',
     },
     _focus: {
-      backgroundColor: 'gray.200',
+      backgroundColor: 'gray.600',
       transition: 'ease-in-out',
       transitionDuration: '0.2s',
     },
     _active: {
-      backgroundColor: 'gray.300',
+      backgroundColor: 'gray.700',
       transition: 'ease-in-out',
       transitionDuration: '0.2s',
     },
     _disabled: {
-      backgroundColor: 'gray.400',
+      backgroundColor: 'gray.700',
       transition: 'ease-in-out',
       transitionDuration: '0.2s',
       cursor: 'not-allowed',

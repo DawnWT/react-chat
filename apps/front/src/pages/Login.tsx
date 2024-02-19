@@ -36,7 +36,7 @@ export const LoginPage = function () {
 
   return (
     <>
-      <Heading align="center">Login</Heading>
+      <Heading align="center" color="white">Login</Heading>
       <form onSubmit={handleSubmit}>
         <Card>
           <TextInput
@@ -58,10 +58,10 @@ export const LoginPage = function () {
             id="formPassword"
             error={isError}
           />
-          <ALink to="/register" alignSelf="end">
+          <ALink to="/register" alignSelf="end" color="white">
             S'enregistrer
           </ALink>
-          <Button type="submit" disabled={isPending}>
+          <Button type="submit" disabled={isPending} color="white">
             Se Connecter
           </Button>
         </Card>
